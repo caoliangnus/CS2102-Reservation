@@ -13,3 +13,6 @@ CS2102 Group 47
 3. Install the required packages using `npm install` 
 4. Run server using `node bin\www`
 4. Open `localhost:3000`
+
+## Screenshot
+![](https://i.imgur.com/AQYOYke.jpg)
