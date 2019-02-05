@@ -31,6 +31,21 @@ var formsRouter = require('./routes/forms');
 var insertRouter = require('./routes/insert');
 /* ---------------------------- */
 
+var pageRouter = require('./routes/page');
+
+
+/**
+ * Login Page
+ */
+var logInRouter = require('./routes/login');
+
+/**
+ * Sign up Page
+ */ 
+var customerSignUp = require('./routes/customerSignup');
+var restaurantSignUp = require('./routes/restaurantSignup');
+
+
 var app = express();
 
 // view engine setup
@@ -69,6 +84,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/insert', insertRouter);
 /* ---------------------------- */
+
+
+app.use('/page', pageRouter);
+
+
+/**
+ *  User Login
+ */
+app.use('/login', logInRouter);
+
+/**
+ * User Sign up
+ */
+app.use('/cSignup', customerSignUp);
+app.use('/rSignup', restaurantSignUp);
+
+ 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
