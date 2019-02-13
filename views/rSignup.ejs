@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Page Title -->
+    <title>CS2102 Sign Up Page</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <!-- CSS for Styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+
+    <!-- JavaScript for Interactivity -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-dark">
+    <h1 style="color:white">Restaurant
+        <%= title%> Page</h1>
+
+    <div class="container py-3">
+        <div class="row">
+            <div class="mx-auto col-sm-6">
+                <!-- form user info -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">User Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" role="form" autocomplete="off">
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" value="Jane">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" value="Bishop">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="email" value="email@gmail.com">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Company</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Website</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="url" value="">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Time Zone</label>
+                                <div class="col-lg-9">
+                                    <select id="user_time_zone" class="form-control" size="0">
+                                        <option value="Hawaii">(GMT-10:00) Hawaii</option>
+                                        <option value="Alaska">(GMT-09:00) Alaska</option>
+                                        <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US
+                                            &amp;
+                                            Canada)</option>
+                                        <option value="Arizona">(GMT-07:00) Arizona</option>
+                                        <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US
+                                            &amp;
+                                            Canada)</option>
+                                        <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00)
+                                            Central Time (US &amp; Canada)</option>
+                                        <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US
+                                            &amp;
+                                            Canada)</option>
+                                        <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Username</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" value="janeuser">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Password</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="password" value="11111122333">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label">Confirm</label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="password" value="11111122333">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label form-control-label"></label>
+                                <div class="col-lg-9">
+                                    <input type="reset" class="btn btn-secondary" value="Cancel">
+                                    <input type="button" class="btn btn-primary" value="Save Changes">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /form user info -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
