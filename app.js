@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');        //Home Page
 var cSignupRouter = require('./routes/cSignup');    //Customer Signup page
 var rSignupRouter = require('./routes/rSignup');    //Restaurant Signup page
 var logInRouter = require('./routes/login');        //Login Page
+var manageBranchRouter = require('./routes/manageBranch'); //Manage Branch page
 var adminRouter = require('./routes/admin');        //Admin page
 var manageBookingRouter = require('./routes/manageBooking');  //Manage Customer Booking Page
 var searchResultRouter = require('./routes/searchResult'); //Customer Search Result Page
@@ -40,6 +41,7 @@ app.use('/', indexRouter);
 app.use('/cSignup', cSignupRouter);     //url: customer signup
 app.use('/rSignup', rSignupRouter);     //url: restaurant signup
 app.use('/login', logInRouter);         //url: login
+app.use('/manageBranch', manageBranchRouter); //url: manageBranch
 app.use('/admin', adminRouter);        //url: admin page
 app.use('/manageBooking', manageBookingRouter); //url: manage booking
 app.use('/searchResult', searchResultRouter); //url: search result
