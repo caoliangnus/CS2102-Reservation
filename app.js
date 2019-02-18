@@ -14,7 +14,7 @@ var manageBranchRouter = require('./routes/manageBranch'); //Manage Branch page
 var adminRouter = require('./routes/admin');        //Admin page
 var manageBookingRouter = require('./routes/manageBooking');  //Manage Customer Booking Page
 var searchResultRouter = require('./routes/searchResult'); //Customer Search Result Page
-var mRestaurantRouter = require('./routes/mRestaurant'); // Manage restaurant page
+var manageRestaurantRouter = require('./routes/manageRestaurant'); // Manage restaurant page
 
 var tableRouter = require('./routes/table');
 var loopsRouter = require('./routes/loops');
@@ -46,7 +46,7 @@ app.use('/manageBranch', manageBranchRouter); //url: manageBranch
 app.use('/admin', adminRouter);        //url: admin page
 app.use('/manageBooking', manageBookingRouter); //url: manage booking
 app.use('/searchResult', searchResultRouter); //url: search result
-app.use('/mRestaurant', mRestaurant); //url: mRestaurant
+app.use('/manageRestaurant', manageRestaurantRouter); //url: manageRestaurant
 
 //example given
 app.use('/table', tableRouter);
@@ -82,6 +82,7 @@ app.use(function(err, req, res, next) {
 app.locals.user = {
   name: null,
   email: null,
+  accountType: null,
   isLogIn: false
 }
 

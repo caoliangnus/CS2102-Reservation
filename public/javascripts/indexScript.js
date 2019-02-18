@@ -5,6 +5,7 @@ function check(event) {
     var people = document.getElementById('people').value;
     var restaurant = document.getElementById('restaurant').value;
     var location = document.getElementById('location');
+    var hiddenLocation = document.getElementById('locationsHidden');
     var type = document.getElementById('type').value;
 
     console.log(date)
@@ -25,9 +26,7 @@ function check(event) {
         }
     }
     console.log(result) ;
-
-    event.stopPropagation();
-    return false;
+    document.getElementById('locationsHidden').value = result;
 
     // // Simple Check
     // if (name.length == 0) {

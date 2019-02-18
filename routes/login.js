@@ -12,7 +12,7 @@ const pool = new Pool({
 
 /* SQL Query */
 var sql_query_Insert = 'INSERT INTO customer_info VALUES';
-var sql_query_login = 'SELECT * FROM customer_info';
+var sql_query_login = 'SELECT * FROM "ProjectSample".users';
 
 var sql_query = 'SELECT * FROM customer_info';
 
@@ -32,7 +32,7 @@ router.post('/', function (req, res, next) {
 
     // Construct Specific SQL Query
     // var retrieve_query = "select name from customer_info where email = 'test@email.com'";
-    var retrieve_query = "select * from customer_info where email = '" + email + "'" 
+    var retrieve_query = sql_query_login + " where email = '" + email + "'" 
                 + "AND password='" + password + "'"  ;
 
    
@@ -40,17 +40,24 @@ router.post('/', function (req, res, next) {
 
         if(data.rows.length == 0) {
             res.render('login', { title: 'Login User', error: true });
-      
         } else {
             var user = {
-                name: data.rows[0].name,
+                name: data.rows[0].username,
                 email: data.rows[0].email,
+                accountType: data.rows[0].accounttype,
                 isLogIn: true
             }
             
             req.app.locals.user = user;
 
-            res.redirect("/");
+            if (user.accountType == 'Customer') {
+                res.redirect("/");
+            } 
+
+            if (user.accountType == 'Manager') {
+                res.redirect("/manageRestaurant");
+            } 
+
 
             // res.redirect(url.format({
             //     pathname: "/",
