@@ -37,6 +37,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
 
+  <!-- ADDED JavaScript -->
+  <script src="javascripts/indexScript.js"></script>
 </head>
 
 <body>
@@ -107,11 +109,11 @@
               </div>
             </div>
             <div class="row d-flex justify-content-center">
-              <form>
+              <form id="bookingInfo" role="form">
                 <div class="form-row">
                   <div class="col-md-4 mb-3">
                     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
+                      <input type="text"  id="date" name="date" class="form-control datetimepicker-input" data-target="#datetimepicker4" />
                       <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                       </div>
@@ -120,7 +122,7 @@
                   </div>
                   <div class="col-md-4 mb-3">
                     <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" />
+                      <input type="text" id="time" name="time"  class="form-control datetimepicker-input" data-target="#datetimepicker3" />
                       <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
                       </div>
@@ -128,7 +130,7 @@
                   </div>
                   <div class="col-md-4 mb-3">
                     <div class="input-group">
-                      <input type="text" class="form-control" id="validationDefaultUsername"
+                      <input type="text"  id="people" name="people"  class="form-control"
                         placeholder="Number of people" aria-describedby="inputGroupPrepend2" <div
                         class="input-group-append" data-target="#validationDefaultUsername">
                       <div class="input-group-text"><i class="fa fa-user"></i></div>
@@ -139,7 +141,7 @@
 
             <div class="form-row">
               <div class="col-md-4 mb-3">
-                <select class="custom-select">
+                <select id="restaurant" name="restaurant"  class="custom-select">
                   <option value="0">Any Restaurant</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
@@ -147,26 +149,25 @@
                 </select>
               </div>
               <div class="col-md-4 mb-3">
-                <select class="selectpicker show-menu-arrow" data-live-search="true" multiple="true"
+                <select id="location" name="location" class="selectpicker show-menu-arrow" data-live-search="true" multiple="true"
                   title="Any Location" data-selected-text-format="count>4" data-size="10" data-width="100%"
                   data-hide-disabled="false" data-dropup-auto="false" data-style="btn-inverse" data-mobile="false"
                   data-show-subtext="true" data-max-options=7>
-                  <option>Ford</option>
-                  <option>Escort</option>
-                  <option>Focus</option>
-                  <option>Fusion</option>
+                        <% for(var i=0; i<foodType.length; i++) { %>
+                            <option><%= foodType[i].restauranttype%></option>
+                        <% } %>
                 </select>
               </div>
               <div class="col-md-4 mb-3">
-                <select class="custom-select">
+                <select id="type" name="type" class="custom-select">
                   <option value="0">Any Cuisine</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <% for(var i=0; i<foodType.length; i++) { %>
+                  <option><%= foodType[i].restauranttype%></option>
+                  <% } %>
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="button" onclick="check(event)">Search</button>
             </form>
           </div>
         </div>
@@ -194,6 +195,17 @@
         format: 'LT'
       });
     });
+</script>
+
+<script>
+  (function () {
+    window.addEventListener('load', function () {
+      var forms = [document.getElementById('bookingInfo')];
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', check, false);
+      });
+    }, false);
+  })();
 </script>
 
 

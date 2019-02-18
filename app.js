@@ -10,12 +10,22 @@ var indexRouter = require('./routes/index');        //Home Page
 var cSignupRouter = require('./routes/cSignup');    //Customer Signup page
 var rSignupRouter = require('./routes/rSignup');    //Restaurant Signup page
 var logInRouter = require('./routes/login');        //Login Page
+<<<<<<< HEAD
 var mRestaurantRouter = require('./routes/mRestaurant'); // Manage restaurant page
+=======
+var manageBranchRouter = require('./routes/manageBranch'); //Manage Branch page
+var adminRouter = require('./routes/admin');        //Admin page
+var manageBookingRouter = require('./routes/manageBooking');  //Manage Customer Booking Page
+var searchResultRouter = require('./routes/searchResult'); //Customer Search Result Page
+var mRestaurantRouter = require('./routes/mRestaurant'); // Manage restaurant page
+
+>>>>>>> ac147a1c6d618f9b27f6137dc11471fbe21920c1
 var tableRouter = require('./routes/table');
 var loopsRouter = require('./routes/loops');
 var selectRouter = require('./routes/select');
 var formsRouter = require('./routes/forms');
 var insertRouter = require('./routes/insert');
+
 
 var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
@@ -36,8 +46,17 @@ app.use('/', indexRouter);
 app.use('/cSignup', cSignupRouter);     //url: customer signup
 app.use('/rSignup', rSignupRouter);     //url: restaurant signup
 app.use('/login', logInRouter);         //url: login
+<<<<<<< HEAD
 app.use('/mRestaurant', mRestaurantRouter); // url: mRestaurant
+=======
+app.use('/manageBranch', manageBranchRouter); //url: manageBranch
+app.use('/admin', adminRouter);        //url: admin page
+app.use('/manageBooking', manageBookingRouter); //url: manage booking
+app.use('/searchResult', searchResultRouter); //url: search result
+app.use('/mRestaurant', mRestaurant); //url: mRestaurant
+>>>>>>> ac147a1c6d618f9b27f6137dc11471fbe21920c1
 
+//example given
 app.use('/table', tableRouter);
 app.use('/loops', loopsRouter);
 app.use('/select', selectRouter);
