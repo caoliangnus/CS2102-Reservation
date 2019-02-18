@@ -10,15 +10,16 @@ var indexRouter = require('./routes/index');        //Home Page
 var cSignupRouter = require('./routes/cSignup');    //Customer Signup page
 var rSignupRouter = require('./routes/rSignup');    //Restaurant Signup page
 var logInRouter = require('./routes/login');        //Login Page
+var adminRouter = require('./routes/admin');        //Admin page
 var manageBookingRouter = require('./routes/manageBooking');  //Manage Customer Booking Page
 var searchResultRouter = require('./routes/searchResult'); //Customer Search Result Page
 
-// Given Examples
 var tableRouter = require('./routes/table');
 var loopsRouter = require('./routes/loops');
 var selectRouter = require('./routes/select');
 var formsRouter = require('./routes/forms');
 var insertRouter = require('./routes/insert');
+
 
 var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
@@ -39,6 +40,7 @@ app.use('/', indexRouter);
 app.use('/cSignup', cSignupRouter);     //url: customer signup
 app.use('/rSignup', rSignupRouter);     //url: restaurant signup
 app.use('/login', logInRouter);         //url: login
+app.use('/admin', adminRouter);        //url: admin page
 app.use('/manageBooking', manageBookingRouter); //url: manage booking
 app.use('/searchResult', searchResultRouter); //url: search result
 
