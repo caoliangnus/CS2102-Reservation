@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Page Title -->
+    <title>CS2102 Database Connect</title>
+
+    <!-- CSS for Styling -->
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- JavaScript for Interactivity -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+    <!--Font Awesome (added because you use icons in your prepend/append)-->
+    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+</head>
+
+<body>
+    <h1>CS2102: <%= title%></h1>
+    <h1>Current Points</h1>
+    
+    <h1>Current Reservations</h1>
+    <!--============================= DETAIL =============================-->
+    <section class="bg-light">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 responsive-wrap">
+                    <div class="row light-bg detail-options-wrap">
+                        <% for(var i=0; i<data.length; i++) { %>
+                            <div class="col-sm-3 col-lg-12 col-xl-3 featured-responsive">
+                                <div class="featured-place-wrap" id="feature">
+                                    <form class="form" role="form" autocomplete="off" action="manageBooking" method="POST">
+
+                                        <img src="images/featured1.jpg" class="img-fluid" alt="#">
+                                        <span class="featured-rating-orange ">6.5</span>
+                                        <div class="featured-title-box">
+                                             <!-- <input type="text" class="h6" id="matric<%=i%>" name="matric" value="<%= data[i].matric%>" disabled="true">                                             -->
+                                            <div name="matric"> <%= data[i].matric%> </div>
+                                             <p>Restaurant </p> <span>• </span>
+                                            <p>3 Reviews</p> <span> • </span>
+                                            <p><span>$$$</span>$$</p>
+                                            <ul>
+                                                <li>
+                                                    <p name="name"> <%= data[i].name%> </p>
+                                                    <!-- <input type="text" class="p" id="name<%=i%>" name="name" value="<%= data[i].name%>" disabled="true"> -->
+                                                 </li>
+                                                <li>
+                                                    <p>1301 Avenue, Brooklyn, NY 11230</p>
+                                                </li>
+                                                <li>
+                                                    <p name="faculty"> <%= data[i].faculty%> </p>
+                                                     <!-- <input type="text" class="p" id="faculty<%=i%>" name="faculty" value="<%= data[i].faculty%>" disabled="true"> -->
+                                                </li>
+                                            </ul>
+
+                                            <input type="button" class="btn btn-primary" value="edit" onclick="update(event, <%=i%>)"
+                                                data-toggle="modal" data-target="#myModal"></input>
+                                            <input type="submit" class="btn btn-primary" name="submit" value="delete"></input>
+                                        </div>
+                                     </form>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--//END DETAIL -->
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+    
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- Modal header-->
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Modal body-->
+                <form class="form" role="form" autocomplete="off" action="manageBooking" method="POST">
+    
+                    <div class="modal-body mx-3">
+                        <div class="md-form mb-5">
+                            <input type="text" name="matric">
+                            <input type="text" name="name">
+                            <input type="text" name="faculty">
+                        </div>
+    
+                        <div class="md-form mb-4">
+                        </div>
+    
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-default" name="submit"
+                            value="Submit"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+<script type="text/javascript">
+
+    function update(el, index) {
+        //Obtain data
+
+        var rows =<%-JSON.stringify(data)%>;
+        console.log(index);
+        console.log(rows[index]);
+       
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var modal = $(this)
+            modal.find('input[name="matric"]').val(rows[index].matric);
+            modal.find('input[name="name"]').val(rows[index].name);
+            modal.find('input[name="faculty"]').val(rows[index].faculty);
+        })
+    }
+</script>
+
+
+</html>
