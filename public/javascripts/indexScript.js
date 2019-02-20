@@ -8,12 +8,6 @@ function check(event) {
     var hiddenLocation = document.getElementById('locationsHidden');
     var type = document.getElementById('type').value;
 
-    console.log(date)
-    console.log(time)
-    console.log(people)
-    console.log(restaurant)
-    console.log(type)
-
     var result = [];
     var options = location && location.options;
     var opt;
@@ -25,8 +19,25 @@ function check(event) {
             result.push(opt.value || opt.text);
         }
     }
-    console.log(result) ;
     document.getElementById('locationsHidden').value = result;
+
+    console.log(date);
+    console.log(time);
+    console.log("People");
+    if (people == "") {
+        people = 0;
+    }
+    console.log(people);
+    console.log(restaurant);
+    console.log(type);
+    console.log(result);
+
+    if (people > 10) {
+        alert("Can not book more than 10 people");
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
 
     // // Simple Check
     // if (name.length == 0) {

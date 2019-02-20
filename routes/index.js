@@ -49,7 +49,7 @@ router.post('/manage', function (req, res, next) {
 });
 
 // POST
-router.post('/search', function (req, res, next) {
+router.post('/searchResult', function (req, res, next) {
 
   console.log("Searching");
 

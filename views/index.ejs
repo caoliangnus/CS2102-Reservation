@@ -102,7 +102,7 @@
               </div>
             </div>
             <div class="row d-flex justify-content-center">
-              <form id="bookingInfo" role="form"  action="/search" method="post">
+              <form id="bookingInfo" role="form"  action="/searchResult" method="post">
                 <div class="form-row">
                   <div class="col-md-4 mb-3">
                     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
@@ -169,8 +169,20 @@
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary" id="searchBtn" type="submit" onclick="check(event)">Search</button>
-            </form>
+              <button type="submit" id="searchBtn" class="btn btn-primary">Search</button>
+          </form>
+
+          <script>
+            (function () {
+              window.addEventListener('load', function () {
+                var forms = [document.getElementById('bookingInfo')];
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                  form.addEventListener('submit', check, false);
+                });
+              }, false);
+            })();
+          </script>
+
           </div>
         </div>
       </div>
@@ -199,14 +211,6 @@
     });
 </script>
 
-<script>
-  (function () {
-    window.addEventListener('load', function () {
-      var forms = [document.getElementById('bookingInfo')];
-      var validation = Array.prototype.filter.call(forms, function (form) {
-        form.addEventListener('submit', check, false);
-      });
-    }, false);
-  })();
-</script>
+
+
 </html>
