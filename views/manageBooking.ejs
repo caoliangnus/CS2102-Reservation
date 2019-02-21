@@ -90,20 +90,19 @@
                                         <span class="featured-rating-orange ">6.5</span>
                                         <div class="featured-title-box">
                                              <!-- <input type="text" class="h6" id="matric<%=i%>" name="matric" value="<%= data[i].matric%>" disabled="true">                                             -->
-                                            <div name="matric"> <%= data[i].matric%> </div>
-                                             <p>Restaurant </p> <span>• </span>
-                                            <p>3 Reviews</p> <span> • </span>
-                                            <p><span>$$$</span>$$</p>
+                                            <div name="restaurantname"> <%= data[i].restaurantname%> </div>
+                                             <p name ="starttime">Time: <%= data[i].starttime%> </p>
+                                            <span> • </span>
+                                            <p name = "people">People: <%= data[i].people%></p>
                                             <ul>
                                                 <li>
-                                                    <p name="name"> <%= data[i].name%> </p>
-                                                    <!-- <input type="text" class="p" id="name<%=i%>" name="name" value="<%= data[i].name%>" disabled="true"> -->
+                                                    <p name="name"><%= data[i].reserveddate.toDateString()%> </p>
                                                  </li>
                                                 <li>
-                                                    <p>1301 Avenue, Brooklyn, NY 11230</p>
+                                                    <p name="fulladdress"><%= data[i].fulladdress%></p>
                                                 </li>
                                                 <li>
-                                                    <p name="faculty"> <%= data[i].faculty%> </p>
+                                                    <p name="area"> <%= data[i].area%> </p>
                                                      <!-- <input type="text" class="p" id="faculty<%=i%>" name="faculty" value="<%= data[i].faculty%>" disabled="true"> -->
                                                 </li>
                                             </ul>

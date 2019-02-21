@@ -21,14 +21,20 @@ router.get('/', function (req, res, next) {
     }
 
     sql_query = 'select points from "ProjectSample".customer where email = ' + "'" + user.email+ "'";
-
+    var reservation_query = 'with BranchLocation as (select * from "ProjectSample".reservation ' +
+        'natural join "ProjectSample".branch where email = ' + "'" + user.email + "') " +
+        'select restaurantname, starttime, BranchLocation.reservedDate::timestamp, people, fulladdress, ' +
+        '"ProjectSample".area.area from BranchLocation, "ProjectSample".address natural join "ProjectSample".area ' +
+        'where "ProjectSample".address.postalcode = BranchLocation.postalcode';
     console.log(user.email);
     pool.query(sql_query, (err, data) => {
         console.log(data.rows[0]);
         var point = data.rows[0].points;
-        pool.query(sql_query2, (err, data) => {
-            res.render('manageBooking', { title: 'Manage Booking', point: point, data: data.rows });
+        pool.query(reservation_query, (err, data) => {
+            var datas = data.rows
+            res.render('manageBooking', { title: 'Manage Booking', point: point, data: datas });
         });
+        
     });    
 });
 
