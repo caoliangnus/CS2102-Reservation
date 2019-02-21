@@ -17,38 +17,57 @@ const pool = new Pool({
 
 /* SQL Query */
 var sql_query = 'select * from "ProjectSample".foodType;';
-var sql_query_2 = 'SELECT * FROM "ProjectSample".customer;';
 
 
 router.get('/', function (req, res, next) {
   var user = req.app.locals.user;
+  console.log(user);
   var foodType;
   // var user;
-
   pool.query(sql_query, (err, data) => {
     foodType = data.rows
     console.log(foodType);
     console.log(user);
     res.render('index', { title: 'Home Page', user: user, foodType: foodType });
-
   });
-
-  // pool.query(sql_query_2, (err, data) => {
-  //   user = data.rows
-  // });
-
-
-
 
 });
 
 // POST
-router.post('/logOut', function (req, res, next) {
+router.post('/logout', function (req, res, next) {
   var user = req.app.locals.user;
   user.isLogIn = false;
   req.app.locals.user = user;
-  res.render('index', { title: 'Home Page', user: user });
+  res.redirect('/');
+
 });
 
+
+// POST
+router.post('/manage', function (req, res, next) {
+  res.redirect('/manageBooking')
+});
+
+// POST
+router.post('/search', function (req, res, next) {
+
+  console.log("Searching");
+
+  var date = req.body.date;
+  var time = req.body.time;
+  var people = req.body.people;  
+  var restaurant = req.body.restaurant;
+  var locations = req.body.location;
+  var type = req.body.type;
+
+  console.log(date);
+  console.log(time);
+  console.log(people);
+  console.log(restaurant);
+  console.log(locations);
+  console.log(type);
+
+  res.redirect('/searchResult')
+});
 
 module.exports = router;

@@ -44,36 +44,29 @@
 <body>
 
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">CS2102 Grp 47</a>
+    <a class="navbar-brand" href="/">CS2102 Grp 47</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
       aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="forms">Forms</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="table">Table</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="select">Select</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="loops">Loops</a>
-        </li>
-      </ul>
 
       <% if(user.isLogIn == true){ %>
-        <button><%=user.name%></button>
-        <form action="/logout" method="post">
-          <button name="logout" value="logout">Logout</button>
-        </form>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false"> <%=user.name%> </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <form class="dropdown-item" action="/logout" method="post">
+                  <button name="logout" value="logout" style="padding: 0;border: none;background: none;">Logout</button>
+                </form>
+              <form  class="dropdown-item" method="post" action="/manage" class="inline">
+                <button name="logout" value="logout" style="padding: 0;border: none;background: none;">Manage</button>
+              </form>
 
+            </div>
+          </li>
+        </ul>
       <% } else{ %>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
@@ -109,7 +102,7 @@
               </div>
             </div>
             <div class="row d-flex justify-content-center">
-              <form id="bookingInfo" role="form">
+              <form id="bookingInfo" role="form"  action="/search" method="post">
                 <div class="form-row">
                   <div class="col-md-4 mb-3">
                     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
@@ -149,14 +142,23 @@
                 </select>
               </div>
               <div class="col-md-4 mb-3">
-                <select id="location" name="location" class="selectpicker show-menu-arrow" data-live-search="true" multiple="true"
+                <select id="location" class="selectpicker show-menu-arrow" data-live-search="true" multiple="multiple"
                   title="Any Location" data-selected-text-format="count>4" data-size="10" data-width="100%"
                   data-hide-disabled="false" data-dropup-auto="false" data-style="btn-inverse" data-mobile="false"
-                  data-show-subtext="true" data-max-options=7>
+                  data-show-subtext="true">
                         <% for(var i=0; i<foodType.length; i++) { %>
                             <option><%= foodType[i].restauranttype%></option>
                         <% } %>
                 </select>
+                  <input type="hidden" id="locationsHidden" name="location"> </input>
+
+
+              <!-- <select name="role[]" id="role" class="ui fluid search dropdown show-menu-arrow" multiple="multiple">
+                <% for(var i=0; i<foodType.length; i++) { %>
+                <option ><%= foodType[i].restauranttype%></option>
+                <% } %>
+              </select> -->
+
               </div>
               <div class="col-md-4 mb-3">
                 <select id="type" name="type" class="custom-select">
@@ -167,7 +169,7 @@
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary" type="button" onclick="check(event)">Search</button>
+            <button class="btn btn-primary" id="searchBtn" type="submit" onclick="check(event)">Search</button>
             </form>
           </div>
         </div>
@@ -207,6 +209,4 @@
     }, false);
   })();
 </script>
-
-
 </html>

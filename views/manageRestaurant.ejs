@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Page Title -->
+	<title>Restaurant Branches</title>
+
+	<!-- CSS for Styling -->
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<!-- JavaScript for Interactivity -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+		crossorigin="anonymous"></script>
+
+	<!--Font Awesome (added because you use icons in your prepend/append)-->
+	<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<a class="navbar-brand" href="/">CS2102 Grp 47</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+			aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+
+			<% if(user.isLogIn == true){ %>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> <%=user.name%> </a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<form class="dropdown-item" action="/logout" method="post">
+							<button name="logout" value="logout" style="padding: 0;border: none;background: none;">Logout</button>
+						</form>
+						<form class="dropdown-item" method="post" action="/manage" class="inline">
+							<button name="logout" value="logout" style="padding: 0;border: none;background: none;">Manage</button>
+						</form>
+
+					</div>
+				</li>
+			</ul>
+			<% } else{ %>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="login">Login</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> Sign Up</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="cSignup">Diner</a>
+						<a class="dropdown-item" href="rSignup">Restaurant</a>
+					</div>
+				</li>
+			</ul>
+			<% } %>
+
+
+		</div>
+	</nav>
+
+
+	<h1 style="margin-top: 65px;position: relative;"><%= title%></h1>
+	<a class="btn btn-info" href="/manageBranch">Manage Branch</a>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Address</th>
+				<th scope="col">Area</th>
+				<th scope="col">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(var i=0; i<data.length; i++) { %>
+			<tr>
+				<td><%= data[i].email%></td>
+				<td><%= data[i].name%></td>
+				<td><%= data[i].password%></td>
+				<td>
+
+					<button type="button">
+						Delete
+					</button>
+
+					<button type="button">
+						Edit
+					</button>
+
+				</td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+
+</body>
+
+</html>

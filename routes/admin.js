@@ -9,7 +9,7 @@ const pool = new Pool({
 
 
 /* SQL Query */
-var sql_query = 'SELECT * FROM users';
+var sql_query = 'SELECT * FROM "ProjectSample".users';
 
 router.get('/', function(req, res, next) {
 	pool.query(sql_query, (err, data) => {

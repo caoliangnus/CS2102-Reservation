@@ -219,6 +219,14 @@ Insert into "ProjectSample".foodType(restaurantType) VALUES('Café');
 Insert into "ProjectSample".foodType(restaurantType) VALUES('Vegeterian');
 Insert into "ProjectSample".foodType(restaurantType) VALUES('Juice Bar');
 
+-- Area
+Insert into "ProjectSample".Area(area) values('North');
+Insert into "ProjectSample".Area(area) values('South');
+Insert into "ProjectSample".Area(area) values('East');
+Insert into "ProjectSample".Area(area) values('West');
+Insert into "ProjectSample".Area(area) values('Central');
+
+
 select * from "ProjectSample".users;
 select * from "ProjectSample".customer;
 select * from "ProjectSample".manager;
