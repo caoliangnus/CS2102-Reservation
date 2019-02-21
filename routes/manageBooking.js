@@ -8,14 +8,28 @@ const pool = new Pool({
 });
 
 /* SQL Query */
-var sql_query = 'SELECT * FROM student_info';
+var sql_query2 = 'select * from student_info'
 var update_query = 'UPDATE student_info SET';
 
 
 router.get('/', function (req, res, next) {
+
+    var user = req.app.locals.user;
+
+    if (user.isLogIn == false) {
+        res.redirect("/login");
+    }
+
+    sql_query = 'select points from "ProjectSample".customer where email = ' + "'" + user.email+ "'";
+
+    console.log(user.email);
     pool.query(sql_query, (err, data) => {
-        res.render('manageBooking', { title: 'Manage Booking', data: data.rows });
-    });
+        console.log(data.rows[0]);
+        var point = data.rows[0].points;
+        pool.query(sql_query2, (err, data) => {
+            res.render('manageBooking', { title: 'Manage Booking', point: point, data: data.rows });
+        });
+    });    
 });
 
 
