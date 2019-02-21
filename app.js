@@ -42,19 +42,11 @@ app.use('/', indexRouter);
 app.use('/cSignup', cSignupRouter);     //url: customer signup
 app.use('/rSignup', rSignupRouter);     //url: restaurant signup
 app.use('/login', logInRouter);         //url: login
-<<<<<<< HEAD
-app.use('/mRestaurant', mRestaurantRouter); // url: mRestaurant
-=======
 app.use('/manageBranch', manageBranchRouter); //url: manageBranch
 app.use('/admin', adminRouter);        //url: admin page
 app.use('/manageBooking', manageBookingRouter); //url: manage booking
 app.use('/searchResult', searchResultRouter); //url: search result
-<<<<<<< HEAD
-app.use('/mRestaurant', mRestaurant); //url: mRestaurant
->>>>>>> ac147a1c6d618f9b27f6137dc11471fbe21920c1
-=======
 app.use('/manageRestaurant', manageRestaurantRouter); //url: manageRestaurant
->>>>>>> 3e58e7bb937c60338555061aacb41a99014f5388
 
 //example given
 app.use('/table', tableRouter);
