@@ -17,20 +17,27 @@ const pool = new Pool({
 
 /* SQL Query */
 var sql_query = 'select * from "ProjectSample".foodType;';
+var sql_query_area = 'select * from "ProjectSample".area;';
 
 
 router.get('/', function (req, res, next) {
   var user = req.app.locals.user;
   console.log(user);
   var foodType;
+  var area;
   // var user;
   pool.query(sql_query, (err, data) => {
     foodType = data.rows
     console.log(foodType);
     console.log(user);
-    res.render('index', { title: 'Home Page', user: user, foodType: foodType });
+	
+	pool.query(sql_query_area, (err, data) => {
+    area = data.rows
+    console.log(area);
+	res.render('index', { title: 'Home Page', user: user, foodType: foodType, area: area });
+	});
   });
-
+  
 });
 
 // POST
