@@ -15,20 +15,37 @@ const pool = new Pool({
 // });
 
 
-/* SQL Query */
-var sql_query = 'select * from "ProjectSample".foodType;';
-
-
 router.get('/', function (req, res, next) {
   var user = req.app.locals.user;
   console.log(user);
   var foodType;
-  // var user;
-  pool.query(sql_query, (err, data) => {
+  var restaurantList;
+  var areaList;
+
+  var foodType_query = 'select * from "ProjectSample".foodType;';
+  var restaurantName_query = 'select restaurantName from "ProjectSample".restaurant'
+  var area_query = 'select area from "ProjectSample".area'
+
+
+
+  pool.query(foodType_query, (err, data) => {
     foodType = data.rows
-    console.log(foodType);
-    console.log(user);
-    res.render('index', { title: 'Home Page', user: user, foodType: foodType });
+
+    pool.query(restaurantName_query, (err, data) => {
+      restaurantList = data.rows;
+
+      pool.query(area_query, (err, data) => {
+        areaList = data.rows;
+        res.render('index', { title: 'Home Page', 
+                              user: user, 
+                              foodType: foodType, 
+                              restaurantList: restaurantList,
+                              areaList: areaList });
+
+      })
+
+    })
+
   });
 
 });

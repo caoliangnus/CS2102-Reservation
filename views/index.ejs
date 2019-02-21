@@ -135,10 +135,10 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <select id="restaurant" name="restaurant"  class="custom-select">
-                  <option value="0">Any Restaurant</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                    <option value="0">Any Restaurant</option>
+                    <% for(var i=0; i<restaurantList.length; i++) { %>
+                    <option><%= restaurantList[i].restaurantname%></option>
+                    <% } %>
                 </select>
               </div>
               <div class="col-md-4 mb-3">
@@ -146,18 +146,12 @@
                   title="Any Location" data-selected-text-format="count>4" data-size="10" data-width="100%"
                   data-hide-disabled="false" data-dropup-auto="false" data-style="btn-inverse" data-mobile="false"
                   data-show-subtext="true">
-                        <% for(var i=0; i<foodType.length; i++) { %>
-                            <option><%= foodType[i].restauranttype%></option>
+                        <% for(var i=0; i<areaList.length; i++) { %>
+                            <option><%= areaList[i].area%></option>
                         <% } %>
                 </select>
                   <input type="hidden" id="locationsHidden" name="location"> </input>
 
-
-              <!-- <select name="role[]" id="role" class="ui fluid search dropdown show-menu-arrow" multiple="multiple">
-                <% for(var i=0; i<foodType.length; i++) { %>
-                <option ><%= foodType[i].restauranttype%></option>
-                <% } %>
-              </select> -->
 
               </div>
               <div class="col-md-4 mb-3">
@@ -196,17 +190,21 @@
 
 
 <script type="text/javascript">
+  var tomorrow = moment().add(1, 'days');
+ 
+
   $(function () {
     $('#datetimepicker4').datetimepicker({
-      defaultDate: moment(),
-      format: 'L'
+      defaultDate: tomorrow,
+      format: 'L',
+       minDate: tomorrow
     });
   });
 
    $(function () {
       $('#datetimepicker3').datetimepicker({
         defaultDate: moment(),
-        format: 'LT'
+        format: 'HH:00'
       });
     });
 </script>
