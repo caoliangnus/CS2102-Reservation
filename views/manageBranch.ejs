@@ -5,6 +5,8 @@
     <title>Restaurant Branches</title>
 
 			<!-- CSS for Styling -->
+			
+			
 			<link rel='stylesheet' href='/stylesheets/style.css' />
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
 				integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -23,6 +25,7 @@
 
   </head>
   <body>
+
 
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 			<a class="navbar-brand" href="/">CS2102 Grp 47</a>
@@ -82,21 +85,85 @@
 			</thead>
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
-				<tr>
+				<tr><div>
 					<td><%= data[i].branchid%></td>
 					<td><%= data[i].fulladdress%></td>
 					<td><%= data[i].area%></td>
 					<td>
+					
 				
 					    <form action="manageBranch" method="post">
                         <button type="submit" name="delete" id="delete" value=<%= data[i].postalcode%>>Delete</button>
-                      </form>
+                        </form>
 					
-					    <button type="button">
-					    Edit
-					    </button>
-					
-					</td>
+					<!-- Button trigger modal -->
+						<button type="button"  data-toggle="modal" data-target="#editModal<%=i%>">
+						  Edit
+						</button>
+                         
+						<!-- Modal -->
+						<div class="modal fade" id="editModal<%=i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Edit Branch</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+							  </div>
+							  <div class="modal-body">
+								<form action="/manageBranch" method="post">
+								  Address: <input value="<%=data[i].fulladdress%>" id="address" align="center" type="text" name="address"><br>
+								  Area:<div align="left">
+											<select name="areaDropdown" id="area">
+										     <% if (data[i].area == "North") { %>
+											 <option selected="selected" value="North">North</option>
+											 <option value="South">South</option>
+											 <option value="East">East</option>
+											 <option value="West">West</option>
+											 <option value="Central">Central</option>
+										     <% } else if (data[i].area == "South") {%>
+											 <option value="North">North</option>
+											 <option selected="selected" value="South">South</option>
+											 <option value="East">East</option>
+											 <option value="West">West</option>
+											 <option value="Central">Central</option>
+											 <% } else if (data[i].area == "East") { %>
+											 
+											 <option value="East">North</option>
+											 <option value="South">South</option>
+											 <option selected="selected" value="East">East</option>
+											 <option value="West">West</option>
+											 <option value="Central">Central</option>
+											 <% } else if (data[i].area == "West") { %>
+											 
+											 <option value="West">North</option>
+											 <option value="South">South</option>
+											 <option value="East">East</option>
+											 <option selected="selected" value="West">West</option>
+											 <option value="Central">Central</option>
+											 <% } else { %>
+											 <option value="North">North</option>
+											 <option value="South">South</option>
+											 <option value="East">East</option>
+											 <option value="West">West</option>
+											 <option selected="selected" value="Central">Central</option>
+											 <% } %>
+											</select>
+									    </div>
+								
+								 
+								  <button type="submit">Save Changes</button>
+								</form>
+							  </div>
+							  <div class="modal-footer">
+								<button type="button"  data-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						
+					</td><div>
 				</tr>
 				<% } %>
 			</tbody>
