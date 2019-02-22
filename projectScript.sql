@@ -37,7 +37,7 @@ CREATE TABLE "ProjectSample".Customer(
     username varchar(50),
     points INT default 0,
     accountType varchar(50) NOT null default 'Customer',
-    FOREIGN KEY (email) REFERENCES "ProjectSample".Users (email),
+    FOREIGN KEY (email) REFERENCES "ProjectSample".Users (email) on delete cascade,
     Check(accountType = 'Customer')
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE "ProjectSample".Redeem(
 	redeemId INT primary key,
     description varchar(50) not null,
     email varchar(50) not null,
-    FOREIGN KEY (email) REFERENCES "ProjectSample".Customer
+    FOREIGN KEY (email) REFERENCES "ProjectSample".Customer on delete cascade,
 );
 
 
@@ -55,7 +55,7 @@ CREATE TABLE "ProjectSample".Manager(
     password varchar(50),
     username varchar(50),
     accountType varchar(50) NOT null default 'Manager',
-    FOREIGN KEY (email) REFERENCES "ProjectSample".Users (email),
+    FOREIGN KEY (email) REFERENCES "ProjectSample".Users (email) on delete cascade,
     Check(accountType = 'Manager')
 );
 

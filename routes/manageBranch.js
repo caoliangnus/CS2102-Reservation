@@ -9,12 +9,25 @@ const pool = new Pool({
 
 
 /* SQL Query */
-var sql_query = 'SELECT * FROM "ProjectSample".users';
+var display_query = 'SELECT * FROM "ProjectSample".Branch natural join "ProjectSample".Address';
+
 
 router.get('/', function(req, res, next) {
-	pool.query(sql_query, (err, data) => {
+	pool.query(display_query, (err, data) => {
 		res.render('manageBranch', { title: 'Restaurant Branches', data: data.rows });
 	});
+	
+	
 });
 
+router.post('/', function(req, res, next) {
+	var delete_query = 'delete from "ProjectSample".Branch where postalcode = ' + "'" + req.body.delete + "'"; 
+	console.log(delete_query);
+	
+	pool.query(delete_query, (err, data) => {
+		res.redirect('/manageBranch');
+	});
+	
+	
+});
 module.exports = router;

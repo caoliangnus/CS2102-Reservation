@@ -17,4 +17,22 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+// POST
+router.post('/', function(req, res, next) {
+	// Retrieve Information
+	var email  = req.body.delete;
+	
+	
+	// Construct Specific SQL Query
+	var delete_query = 'DELETE FROM "ProjectSample".users WHERE email = ' + "'" + email + "'";
+	console.log(delete_query);
+		
+	
+	pool.query(delete_query, (err, data) => {
+		console.log(err);
+		res.redirect('/admin');
+		
+	});
+});
+
 module.exports = router;
