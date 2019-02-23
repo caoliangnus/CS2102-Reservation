@@ -76,8 +76,39 @@
 
 	<h1 style="margin-top: 65px;position: relative;"><%= title%></h1>
 	<a class="btn btn-info" href="/manageBranch">Manage Branch</a>
-	<button class="btn btn-info">Add New Meal</button>
-    Restaurant Type : <%=data[0].restauranttype%>
+
+		<!-- Button trigger modal -->
+	<button class="btn btn-info" data-toggle="modal" data-target="#addModal">Add New Meal</button>
+	
+			<!-- Modal -->
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Add Branch</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+							  </div>
+							  <div class="modal-body">
+								<form name="add" action="/manageRestaurant" method="post">
+								  Meal Name: <input value="" align="center" type="text" name="newMeal"><br>
+								  Price    : <input value="" align="center" type="text" name="newPrice"><br>
+								 
+								
+								 
+								  <button name="submit" value="add" type="submit">Add New Meal</button>
+								</form>
+							  </div>
+							  <div class="modal-footer">
+								<button type="button"  data-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						<br>
+    Restaurant Type : <%=restaurantType%><br>
+	Average Rating : <%=avgRating%>
 	<table class="table">
 		<thead>
 			<tr>
@@ -95,13 +126,42 @@
 
 				<td>
 
-					<button type="button">
-						Delete
-					</button>
+					    <form action="manageRestaurant" method="post">
+						<input type="hidden" name="delete" value="<%=data[i].mealname%>">
+                        <button type="submit" name="submit"  value="delete">Delete</button>
+                        </form>
 
-					<button type="button">
-						Edit
-					</button>
+							<!-- Button trigger modal -->
+						<button type="button"  data-toggle="modal" data-target="#editModal<%=i%>">
+						  Edit
+						</button>
+                         
+						<!-- Modal -->
+						<div class="modal fade" id="editModal<%=i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Edit Branch</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+							  </div>
+							  <div class="modal-body">
+								<form name="edit" action="/manageRestaurant" method="post">
+								  Meal Name: <input value="<%=data[i].mealname%>"  align="center" type="text" name="mealname"><br>
+								  Price: <input value=<%=data[i].price%> align="center" type="text" name="mealprice"><br>
+								 
+								         <input type="hidden"  name="originalName" value="<%=data[i].mealname%>">
+								 
+								  <button name="submit" value="edit"  type="submit">Save Changes</button>
+								</form>
+							  </div>
+							  <div class="modal-footer">
+								<button type="button"  data-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
 
 				</td>
 			</tr>
