@@ -76,22 +76,23 @@
 
 	<h1 style="margin-top: 65px;position: relative;"><%= title%></h1>
 	<a class="btn btn-info" href="/manageBranch">Manage Branch</a>
-
+	<button class="btn btn-info">Add New Meal</button>
+    Restaurant Type : <%=data[0].restauranttype%>
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col">Name</th>
-				<th scope="col">Address</th>
-				<th scope="col">Area</th>
-				<th scope="col">Actions</th>
+				<th scope="col">Meal</th>
+				<th scope="col">Price</th>
+				<th scope="col">Action</th>
+			
 			</tr>
 		</thead>
 		<tbody>
 			<% for(var i=0; i<data.length; i++) { %>
 			<tr>
-				<td><%= data[i].email%></td>
-				<td><%= data[i].name%></td>
-				<td><%= data[i].password%></td>
+				<td><%= data[i].mealname%></td>
+				<td><%= data[i].price%></td>
+
 				<td>
 
 					<button type="button">

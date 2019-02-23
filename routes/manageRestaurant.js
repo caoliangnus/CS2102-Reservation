@@ -7,8 +7,11 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
+//Dummy User
+var user = {email: 'm1@gmail.com'};
+
 /* SQL Query */
-var sql_query = 'SELECT * FROM "ProjectSample".users';
+var sql_query = 'SELECT * FROM "ProjectSample".Meals natural join "ProjectSample".Restaurant where email = ' + "'" + user.email + "'";
 
 // GET
 router.get('/', function(req, res, next) {

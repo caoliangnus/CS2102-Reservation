@@ -6,10 +6,11 @@ const { Pool } = require('pg')
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 }); 
-
-
+/*dummy user */
+var user = {email: 'm1@gmail.com'};
 /* SQL Query */
-var display_query = 'SELECT * FROM "ProjectSample".Branch natural join "ProjectSample".Address';
+var display_query = 'SELECT * FROM "ProjectSample".Branch natural join "ProjectSample".Address natural join "ProjectSample".Restaurant where email = '
+ + "'" + user.email + "'" + ' order by branchId asc';
 
 
 router.get('/', function(req, res, next) {
@@ -21,8 +22,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+	
 	var button = req.body.submit;
-	if (button == "delete") { 
+	console.log(button);
+	if (button == "delete") {
+
 	
 	var delete_query = 'delete from "ProjectSample".Branch where postalcode = ' + "'" + req.body.delete + "'"; 
 	console.log(delete_query);
@@ -30,33 +34,61 @@ router.post('/', function(req, res, next) {
 	pool.query(delete_query, (err, data) => {
 		res.redirect('/manageBranch');
 	});
+	} else if (button == "add") {
+			
+	var newAddress = req.body.newAddress;
+	var newPostalCode = req.body.newPostalCode;
+	var newArea = req.body.newArea;
 	
+	var addAddressQuery = 'insert into "ProjectSample".Address(postalcode, area, fulladdress) values (' + "'" + newPostalCode + "'" 
+	+ ', ' + "'" + newArea + "'" + ', ' + "'" + newAddress + "'" + ')';
+    
+    var addBranchQuery = 'insert into "ProjectSample".Branch(branchId, restaurantName, postalcode) values (' +
+	"(" + 'select count(*) from "ProjectSample".Branch natural join "ProjectSample".Restaurant where email = ' + "'" + user.email + "') + 1"
+    + ', ' + '( select restaurantName from "ProjectSample".Restaurant where email = ' + "'" + user.email + "'" + '), '
+    + "'" + newPostalCode + "'" + ')';
+
+    console.log(addAddressQuery);
+    console.log(addBranchQuery); 	
+	
+	pool.query(addAddressQuery, (err, data) => {
+		console.log(err);
+		pool.query(addBranchQuery, (err, data) => {
+			console.log(err);
+		    res.redirect('/manageBranch');
+	   });
+	
+		
+	});
+	
+		
 	} else {
-	
-    var update_address_query = 'update "ProjectSample".Address set fulladdress = ' + "'" + req.body.address + "'" + ' where postalcode = ' + "'" + req.body.edit +"'";
-    var update_area_query = 'update "ProjectSample".Address set area = ' + "'" + req.body.area + "'" + ' where postalcode = ' + "'" + req.body.edit + "'";
-	var update_postal_query = 'update "ProjectSample".Address set postalcode = ' + "'" + req.body.postalcode + "'" + ' where postalcode = ' + "'" + req.body.edit +"'";
+		
+    var update_address_query = 'update "ProjectSample".Address set fulladdress = ' + "'" + req.body.address + "'" + ' where postalcode = ' + "'" + req.body.originalPostalCode +"'";
+    var update_area_query = 'update "ProjectSample".Address set area = ' + "'" + req.body.area + "'" + ' where postalcode = ' + "'" + req.body.originalPostalCode + "'";
+	var update_postal_query = 'update "ProjectSample".Address set postalcode = ' + "'" + req.body.postalcode + "'" + ' where postalcode = ' + "'" + req.body.originalPostalCode +"'";
 	console.log(update_address_query);
 	console.log(update_area_query);
 	console.log(update_postal_query);
 	
 
-  	pool.query(update_address_query, (err, data) => {
-		console.log(err);
-		pool.query(update_area_query, (err, data) => {
+		pool.query(update_address_query, (err, data) => {
 			console.log(err);
-			pool.query(update_postal_query, (err, data) => {
+			pool.query(update_area_query, (err, data) => {
 				console.log(err);
-		        res.redirect('/manageBranch');
-	});
+				pool.query(update_postal_query, (err, data) => {
+					console.log(err);
+					res.redirect('/manageBranch');
+				});
+				
 			
-		
-	});
-	});
-		
-		
+			});
+		});
+	
 		
 	}
+	
+	
 	
 	
 });

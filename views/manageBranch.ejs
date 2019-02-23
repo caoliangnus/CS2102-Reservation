@@ -74,6 +74,45 @@
 
     <h1 style="margin-top: 65px;position: relative;"><%= title%></h1>
 	<a class="btn btn-info" href="/manageRestaurant">Manage Restaurant</a>
+	<!-- Button trigger modal -->
+	<button class="btn btn-info" data-toggle="modal" data-target="#addModal">Add Branch</button>
+	
+			<!-- Modal -->
+						<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Add Branch</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								  <span aria-hidden="true">&times;</span>
+								</button>
+							  </div>
+							  <div class="modal-body">
+								<form name="add" action="/manageBranch" method="post">
+								  Address: <input value="" align="center" type="text" name="newAddress"><br>
+								  Postal Code: <input value="" id="postalcode" align="center" type="text" name="newPostalCode"><br>
+								  Area:<div align="left">
+											<select name="newArea" id="newArea">
+										     
+											 <option value="North">North</option>
+											 <option value="South">South</option>
+											 <option value="East">East</option>
+											 <option value="West">West</option>
+											 <option value="Central">Central</option>
+										    
+											</select>
+									    </div>
+								
+								 
+								  <button name="submit" value="add" type="submit">Add new Branch</button>
+								</form>
+							  </div>
+							  <div class="modal-footer">
+								<button type="button"  data-dismiss="modal">Close</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
 		<table class="table">
 			<thead>
 				<tr>
@@ -94,8 +133,9 @@
 					<td>
 					
 				
-					    <form action="manageBranch" method="post">
-                        <button type="submit" name="delete" id="delete" value=<%= data[i].postalcode%>>Delete</button>
+					    <form name="delete" action="manageBranch" method="post">
+						<input type="hidden" id="deletePostal" name="delete" value=<%= data[i].postalcode%>>
+                        <button type="submit" name="submit"  value="delete">Delete</button>
                         </form>
 					
 					<!-- Button trigger modal -->
@@ -114,7 +154,7 @@
 								</button>
 							  </div>
 							  <div class="modal-body">
-								<form action="/manageBranch" method="post">
+								<form name="edit" action="/manageBranch" method="post">
 								  Address: <input value="<%=data[i].fulladdress%>" id="address" align="center" type="text" name="address"><br>
 								  Postal Code: <input value="<%=data[i].postalcode%>" id="postalcode" align="center" type="text" name="postalcode"><br>
 								  Area:<div align="left">
@@ -154,9 +194,9 @@
 											 <% } %>
 											</select>
 									    </div>
-								
+								         <input type="hidden"  name="originalPostalCode" value=<%=data[i].postalcode%>>
 								 
-								  <button name="edit" value="<%=data[i].postalcode%>" id="original" type="submit">Save Changes</button>
+								  <button name="submit" value="edit" id="original" type="submit">Save Changes</button>
 								</form>
 							  </div>
 							  <div class="modal-footer">
