@@ -21,12 +21,42 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+	var button = req.body.submit;
+	if (button == "delete") { 
+	
 	var delete_query = 'delete from "ProjectSample".Branch where postalcode = ' + "'" + req.body.delete + "'"; 
 	console.log(delete_query);
 	
 	pool.query(delete_query, (err, data) => {
 		res.redirect('/manageBranch');
 	});
+	
+	} else {
+	
+    var update_address_query = 'update "ProjectSample".Address set fulladdress = ' + "'" + req.body.address + "'" + ' where postalcode = ' + "'" + req.body.edit +"'";
+    var update_area_query = 'update "ProjectSample".Address set area = ' + "'" + req.body.area + "'" + ' where postalcode = ' + "'" + req.body.edit + "'";
+	var update_postal_query = 'update "ProjectSample".Address set postalcode = ' + "'" + req.body.postalcode + "'" + ' where postalcode = ' + "'" + req.body.edit +"'";
+	console.log(update_address_query);
+	console.log(update_area_query);
+	console.log(update_postal_query);
+	
+
+  	pool.query(update_address_query, (err, data) => {
+		console.log(err);
+		pool.query(update_area_query, (err, data) => {
+			console.log(err);
+			pool.query(update_postal_query, (err, data) => {
+				console.log(err);
+		        res.redirect('/manageBranch');
+	});
+			
+		
+	});
+	});
+		
+		
+		
+	}
 	
 	
 });
