@@ -8,14 +8,34 @@ const pool = new Pool({
 });
 
 /* SQL Query */
-var sql_query = 'SELECT * FROM student_info';
+var sql_query2 = 'select * from student_info'
 var update_query = 'UPDATE student_info SET';
 
 
 router.get('/', function (req, res, next) {
+
+    var user = req.app.locals.user;
+
+    if (user.isLogIn == false) {
+        res.redirect("/login");
+    }
+
+    sql_query = 'select points from "ProjectSample".customer where email = ' + "'" + user.email+ "'";
+    var reservation_query = 'with BranchLocation as (select * from "ProjectSample".reservation ' +
+        'natural join "ProjectSample".branch where email = ' + "'" + user.email + "') " +
+        'select restaurantname, starttime, BranchLocation.reservedDate::timestamp, people, fulladdress, ' +
+        '"ProjectSample".area.area from BranchLocation, "ProjectSample".address natural join "ProjectSample".area ' +
+        'where "ProjectSample".address.postalcode = BranchLocation.postalcode';
+    console.log(user.email);
     pool.query(sql_query, (err, data) => {
-        res.render('manageBooking', { title: 'Manage Booking', data: data.rows });
-    });
+        console.log(data.rows[0]);
+        var point = data.rows[0].points;
+        pool.query(reservation_query, (err, data) => {
+            var datas = data.rows
+            res.render('manageBooking', { title: 'Manage Booking', point: point, data: datas });
+        });
+        
+    });    
 });
 
 

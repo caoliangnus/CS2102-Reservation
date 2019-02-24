@@ -8,12 +8,6 @@ function check(event) {
     var hiddenLocation = document.getElementById('locationsHidden');
     var type = document.getElementById('type').value;
 
-    console.log(date)
-    console.log(time)
-    console.log(people)
-    console.log(restaurant)
-    console.log(type)
-
     var result = [];
     var options = location && location.options;
     var opt;
@@ -25,26 +19,40 @@ function check(event) {
             result.push(opt.value || opt.text);
         }
     }
-    console.log(result) ;
     document.getElementById('locationsHidden').value = result;
 
-    // // Simple Check
-    // if (name.length == 0) {
-    //     alert("Invalid name");
-    //     event.preventDefault();
-    //     event.stopPropagation();
-    //     return false;
-    // }
-    // if (email.length == 0) {
-    //     alert("Invalid name");
-    //     event.preventDefault();
-    //     event.stopPropagation();
-    //     return false;
-    // }
-    // if (pw != repw) {
-    //     alert("Password mismatch");
-    //     event.preventDefault();
-    //     event.stopPropagation();
-    //     return false;
-    // }
+    console.log(date);
+    console.log(time);
+    console.log("People");
+    if (people == "") {
+        people = 0;
+    }
+    console.log(people);
+    console.log(restaurant);
+    console.log(type);
+    console.log(result);
+
+    var hour = time.split(":");
+    var gethour = parseInt(hour[0]); 
+
+    console.log(gethour);
+    if (gethour < 9 || gethour > 22) {
+        alert("Only allow 9am to 9pm");
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    } else if (people > 10 || people == 0) {
+        alert("Number of people should between 1 to 10");
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    } else if (restaurant == 0 && type == 0 && result.length == 0) {
+        alert("Please select Resturant name, type or location ");
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+
+
+    
 }
