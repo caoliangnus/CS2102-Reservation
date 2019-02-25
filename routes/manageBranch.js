@@ -44,7 +44,7 @@ router.post('/', function(req, res, next) {
 	+ ', ' + "'" + newArea + "'" + ', ' + "'" + newAddress + "'" + ')';
     
     var addBranchQuery = 'insert into "ProjectSample".Branch(branchId, restaurantName, postalcode) values (' +
-	"(" + 'select count(*) from "ProjectSample".Branch natural join "ProjectSample".Restaurant where email = ' + "'" + user.email + "') + 1"
+	"(" + 'select max(branchid) from "ProjectSample".Branch natural join "ProjectSample".Restaurant where email = ' + "'" + user.email + "') + 1"
     + ', ' + '( select restaurantName from "ProjectSample".Restaurant where email = ' + "'" + user.email + "'" + '), '
     + "'" + newPostalCode + "'" + ')';
 
