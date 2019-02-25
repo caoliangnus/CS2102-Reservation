@@ -102,7 +102,7 @@
               </div>
             </div>
             <div class="row d-flex justify-content-center">
-              <form id="bookingInfo" role="form"  action="/search" method="post">
+              <form id="bookingInfo" role="form"  action="/searchResult" method="post">
                 <div class="form-row">
                   <div class="col-md-4 mb-3">
                     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
@@ -115,7 +115,7 @@
                   </div>
                   <div class="col-md-4 mb-3">
                     <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                      <input type="text" id="time" name="time"  class="form-control datetimepicker-input" data-target="#datetimepicker3" />
+                      <input type="text" id="time" name="time" class="form-control datetimepicker-input" data-target="#datetimepicker3" />
                       <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
                       </div>
@@ -135,10 +135,10 @@
             <div class="form-row">
               <div class="col-md-4 mb-3">
                 <select id="restaurant" name="restaurant"  class="custom-select">
-                  <option value="0">Any Restaurant</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                    <option value="0">Any Restaurant</option>
+                    <% for(var i=0; i<restaurantList.length; i++) { %>
+                    <option><%= restaurantList[i].restaurantname%></option>
+                    <% } %>
                 </select>
               </div>
               <div class="col-md-4 mb-3">
@@ -146,18 +146,17 @@
                   title="Any Location" data-selected-text-format="count>4" data-size="10" data-width="100%"
                   data-hide-disabled="false" data-dropup-auto="false" data-style="btn-inverse" data-mobile="false"
                   data-show-subtext="true">
+<<<<<<< HEAD
                         <% for(var i=0; i<area.length; i++) { %>
                             <option><%= area[i].area%></option>
+=======
+                        <% for(var i=0; i<areaList.length; i++) { %>
+                            <option><%= areaList[i].area%></option>
+>>>>>>> 7c7d9e23cd47325d018803edfb28f59ed6634d43
                         <% } %>
                 </select>
                   <input type="hidden" id="locationsHidden" name="location"> </input>
 
-
-              <!-- <select name="role[]" id="role" class="ui fluid search dropdown show-menu-arrow" multiple="multiple">
-                <% for(var i=0; i<foodType.length; i++) { %>
-                <option ><%= foodType[i].restauranttype%></option>
-                <% } %>
-              </select> -->
 
               </div>
               <div class="col-md-4 mb-3">
@@ -169,8 +168,20 @@
                 </select>
               </div>
             </div>
-            <button class="btn btn-primary" id="searchBtn" type="submit" onclick="check(event)">Search</button>
-            </form>
+              <button type="submit" id="searchBtn" class="btn btn-primary">Search</button>
+          </form>
+
+          <script>
+            (function () {
+              window.addEventListener('load', function () {
+                var forms = [document.getElementById('bookingInfo')];
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                  form.addEventListener('submit', check, false);
+                });
+              }, false);
+            })();
+          </script>
+
           </div>
         </div>
       </div>
@@ -184,29 +195,25 @@
 
 
 <script type="text/javascript">
+  var tomorrow = moment().add(1, 'days');
+ 
+
   $(function () {
     $('#datetimepicker4').datetimepicker({
-      defaultDate: moment(),
-      format: 'L'
+      defaultDate: tomorrow,
+      format: 'L',
+       minDate: tomorrow
     });
   });
 
    $(function () {
       $('#datetimepicker3').datetimepicker({
         defaultDate: moment(),
-        format: 'LT'
-      });
+        format: 'HH:00'
     });
+  });
 </script>
 
-<script>
-  (function () {
-    window.addEventListener('load', function () {
-      var forms = [document.getElementById('bookingInfo')];
-      var validation = Array.prototype.filter.call(forms, function (form) {
-        form.addEventListener('submit', check, false);
-      });
-    }, false);
-  })();
-</script>
+
+
 </html>

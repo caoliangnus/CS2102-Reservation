@@ -36,6 +36,34 @@ router.get('/', function (req, res, next) {
     console.log(area);
 	res.render('index', { title: 'Home Page', user: user, foodType: foodType, area: area });
 	});
+
+  var restaurantList;
+  var areaList;
+
+  var foodType_query = 'select * from "ProjectSample".foodType;';
+  var restaurantName_query = 'select restaurantName from "ProjectSample".restaurant'
+  var area_query = 'select area from "ProjectSample".area'
+
+
+
+  pool.query(foodType_query, (err, data) => {
+    foodType = data.rows
+
+    pool.query(restaurantName_query, (err, data) => {
+      restaurantList = data.rows;
+
+      pool.query(area_query, (err, data) => {
+        areaList = data.rows;
+        res.render('index', { title: 'Home Page', 
+                              user: user, 
+                              foodType: foodType, 
+                              restaurantList: restaurantList,
+                              areaList: areaList });
+
+      })
+
+    })
+
   });
   
 });
@@ -56,7 +84,7 @@ router.post('/manage', function (req, res, next) {
 });
 
 // POST
-router.post('/search', function (req, res, next) {
+router.post('/searchResult', function (req, res, next) {
 
   console.log("Searching");
 

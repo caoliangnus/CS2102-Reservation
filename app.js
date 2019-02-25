@@ -16,6 +16,7 @@ var manageBookingRouter = require('./routes/manageBooking');  //Manage Customer 
 var searchResultRouter = require('./routes/searchResult'); //Customer Search Result Page
 var manageRestaurantRouter = require('./routes/manageRestaurant'); // Manage restaurant page
 
+
 var tableRouter = require('./routes/table');
 var loopsRouter = require('./routes/loops');
 var selectRouter = require('./routes/select');
@@ -27,6 +28,7 @@ var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,6 +49,7 @@ app.use('/admin', adminRouter);        //url: admin page
 app.use('/manageBooking', manageBookingRouter); //url: manage booking
 app.use('/searchResult', searchResultRouter); //url: search result
 app.use('/manageRestaurant', manageRestaurantRouter); //url: manageRestaurant
+
 
 //example given
 app.use('/table', tableRouter);
