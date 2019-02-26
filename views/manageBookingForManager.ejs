@@ -71,9 +71,7 @@
     
     
         </div>
-    </nav>
-    <h1 style="margin-top: 65px;position: relative;">Current Points: <%=point %></h1>
-    
+    </nav>    
     <h1>Current Reservations</h1>
 
         <table class="table">
@@ -86,6 +84,7 @@
                     <th scope="col">Email</th>
                     <th scope="col">Fulladdress</th>
                     <th scope="col">Area</th>
+                    <th scope="col">Rating</th>
                      <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -99,47 +98,13 @@
                     <td><%= data[i].email%></td>
                     <td><%= data[i].fulladdress%></td>
                     <td><%= data[i].area%></td>
+                    <td>0</td>
                     <td>
         
-                    <form action="manageBooking" method="post">
+                    <form action="manageRestaurant" method="post">
                         <input type="hidden" name="index" value="<%=i%>">
-                        <button type="submit" name="submit" value="Cancel">Cancel</button>
+                        <button type="submit" name="submit" value="Finished">Finished</button>
                     </form>
-        
-                        <!-- Button trigger modal -->
-                        <% if( data[i].status == 0){ %>
-                            <button type="button" value="Rating" data-toggle="modal" data-target="#editModal<%=i%>">
-                                Rating
-                            </button>
-                        <% } %>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="editModal<%=i%>" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Rating</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form name="edit" action="manageBooking" method="post">
-                                            <%= data[i].restaurantname%>
-                                            <br>
-                                            <input type="hidden" name="rName" value="<%= data[i].restaurantname%>">
-                                            Rating: <input value="0"" align="center" type="text"
-                                                name="rating"><br>
-                                            <button name="submit" value="Rating" type="submit">Save Changes</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
         
                     </td>
                 </tr>

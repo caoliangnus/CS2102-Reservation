@@ -76,6 +76,8 @@
 
 	<h1 style="margin-top: 65px;position: relative;"><%= title%></h1>
 	<a class="btn btn-info" href="/manageBranch">Manage Branch</a>
+		<a class="btn btn-info" href="/manageBookingForManager">Manage Reservation</a>
+
 
 		<!-- Button trigger modal -->
 	<button class="btn btn-info" data-toggle="modal" data-target="#addModal">Add New Meal</button>
@@ -94,8 +96,6 @@
 								<form name="add" action="/manageRestaurant" method="post">
 								  Meal Name: <input value="" align="center" type="text" name="newMeal"><br>
 								  Price    : <input value="" align="center" type="text" name="newPrice"><br>
-								 
-								
 								 
 								  <button name="submit" value="add" type="submit">Add New Meal</button>
 								</form>

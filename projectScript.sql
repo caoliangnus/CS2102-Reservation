@@ -1,5 +1,5 @@
 /**
- * For reservation status -> 1 ongoing, 0 ended
+ * For reservation status -> 1 ongoing, 0 ended, -1 rated
  * 
  */
 
@@ -17,7 +17,7 @@ CREATE TABLE "ProjectSample".Users(
     password varchar(50),
     username varchar(50),
     accountType varchar(50) NOT null,
-    Check(accountType = 'Customer' OR accountType ='Manager')
+    Check(accountType = 'Customer' OR accountType ='Manager' or accountType = 'Admin')
 );
 
 CREATE TABLE "ProjectSample".FoodType(
@@ -103,7 +103,7 @@ CREATE TABLE "ProjectSample".Tables(
 
 
 CREATE TABLE "ProjectSample".Ratings(
-    ratingId INT,
+    ratingId serial,
     rating numeric(2,1) default 0,
     restaurantName varchar(50),
 	PRIMARY KEY (ratingId, restaurantName),
@@ -128,7 +128,7 @@ CREATE TABLE "ProjectSample".Reservation(
     startTime time,
     endTime time,
     reservedDate date,
-    status INT,
+    status INT default 1,
     people INT,
     email VARCHAR(50),
     tableId INT,
@@ -148,7 +148,28 @@ CREATE TABLE "ProjectSample".Reservation(
 
 DROP TRIGGER IF EXISTS UserInsertTrigger ON "ProjectSample".users;
 drop trigger if exists RatingUpdateTrigger on "ProjectSample".Ratings;
+drop trigger if exists PointUpdateTrigger on "ProjectSample".Reservation;
 
+/* Create Trigger: When a reservation changes state from ongoing to completed, increment the points of the customer who booked the reservation */
+create or replace function addPoints() 
+   returns trigger as
+   $$
+   begin
+	   
+	   update "ProjectSample".Customer
+	   set points = points + 5
+	   where email = old.email;
+       return new;
+   end;
+   $$
+   language 'plpgsql';
+  
+  create trigger PointUpdateTrigger 
+     after update on "ProjectSample".Reservation
+     for each row
+     execute procedure addPoints();
+  
+  
   
 
 /*Create Trigger: When a rating is inserted/deleted/updated in the Ratings table, update the avgRating of the restaurant of concern*/
@@ -199,6 +220,12 @@ CREATE TRIGGER UserInsertTrigger
   ON "ProjectSample".users
   FOR EACH ROW
   EXECUTE PROCEDURE updateUser();
+ 
+ /**
+  *  Insert Admin into User table
+  */
+ insert into "ProjectSample".Users (email, password, username, accountType) values ('a1@gmail.com', '123', 'admin', 'Admin');
+
 
 /***
  * Insert Customer into User table
@@ -510,13 +537,13 @@ insert into "ProjectSample".Meals(mealName, price, restaurantName) values ('Sake
 /**
  * Insert Ratings
  */
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('1', 2.5, 'Jumbo Seafood');
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('2', 2.0, 'Leon Zicha Store');
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('3', 3.0, 'CaoLiang Mala Wok');
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('4', 1.0, 'Dehui Coffee Bean');
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('5', 5.0, 'Sky fruit juicier');
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('6', 2.3, 'Justin Fried Chicken');
-insert into "ProjectSample".Ratings(ratingId, rating, restaurantName) values ('7', 3.2, 'Weiwen Japanese Cuisine');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 2.5, 'Jumbo Seafood');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 2.0, 'Leon Zicha Store');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 3.0, 'CaoLiang Mala Wok');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 1.0, 'Dehui Coffee Bean');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 5.0, 'Sky fruit juicier');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 2.3, 'Justin Fried Chicken');
+insert into "ProjectSample".Ratings(rating, restaurantName) values ( 3.2, 'Weiwen Japanese Cuisine');
 
 
 
@@ -561,85 +588,3 @@ select * from "ProjectSample".reservation;
 select * from "ProjectSample".restaurant;
 select * from "ProjectSample".tables;
 select * from "ProjectSample".users;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -32,7 +32,9 @@ router.get('/', function (req, res, next) {
         console.log(data.rows[0]);
         var point = data.rows[0].points;
         pool.query(reservation_simple_query, (err, data) => {
-            reservationDetail= data.rows;            
+            reservationDetail= data.rows;
+            reservationDetail.name = user.email;       
+            console.log(reservationDetail)     
             res.render('manageBooking', { title: 'Manage Booking', point: point, data: reservationDetail });
         });
     });    
@@ -46,7 +48,7 @@ router.post('/', function (req, res, next) {
     console.log(req.body);
     var button = req.body.submit;
     console.log(button);
-    if (button == "delete") {
+    if (button == "Cancel") {
         // Construct Specific SQL Query
 
         var index = parseInt(req.body.index);
@@ -67,17 +69,16 @@ router.post('/', function (req, res, next) {
             console.log(err);
             res.redirect('/manageBooking');
         });
-    } else {
-        var matric = req.body.matric;
-        var name = req.body.name;
-        var faculty = req.body.faculty;
-        // Construct Specific SQL Query
-        var update_query = "UPDATE student_info set name = '"+ name + "', faculty = '"+ faculty 
-            + "' where matric = '" + matric + "'";
-        pool.query(update_query, (err, data) => {
-            console.log(data);
+    } else if (button == "Rating") {
+        var rating = req.body.rating;
+        var rName = req.body.rName;
+
+        var updateRatingQuery = 'insert into "ProjectSample".Ratings(rating, restaurantName) values (' + rating + ", '" + rName + "');" ;
+
+        pool.query(updateRatingQuery, (err, data) => {
             res.redirect('/manageBooking')
         });
+
     } 
 });
 
