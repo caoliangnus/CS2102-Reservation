@@ -17,6 +17,8 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
+
+    <script src="javascripts/rSignupScript.js"></script>
 </head>
 
 <body class="bg-dark">
@@ -29,73 +31,59 @@
                 <!-- form user info -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="mb-0"> Manager / Restaurant Information</h4>
+                        <h4 class="mb-0"> Manager & Restaurant Sign up</h4>
                     </div>
                     <div class="card-body">
                         <form class="form" role="form" autocomplete="off">
+                            <form id="rsignupInfo" action="rSignup" role="form" method="post">
+                              <div class="form-group">
+                                  <label for="username">UserName</label>
+                                   <input type="text" class="form-control" id="username" name="username" placeholder="Enter your name">
+                              </div>
+                            <div class="form-group">
+                              <div class="form-group">
+                                  <label for="email">Email</label>
+                                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
 
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Username</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="janeuser">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="email" placeholder="email@gmail.com">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Password</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="11111122333">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Confirm</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="password" value="11111122333">
-                                </div>
-                            </div>
+                              </div>
+                              <div class="form-group">
+                                  <label for="faculty">Password</label>
+                                  <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
 
-
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Restaurant</label>
-                                <div class="col-lg-9">
-                                    <input class="form-control" type="text" value="">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Open Time</label>
-                                <div class="col-lg-9">
-                                    <input type="time" value="08:30:00" step="600">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Close Time </label>
-                                <div class="col-lg-9">
-                                    <input type="time" value="08:30:00" step="600">                            
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-3 col-form-label form-control-label">Type</label>
+                              </div>
+                              <div class="form-group">
+                                  <label for="faculty">Confirm Password</label>
+                                  <input type="password" class="form-control" id="cpassword" placeholder="Re-enter your password">
+                              </div>
+                              <div class="form-group">
+                                  <label for="faculty">Restaurant</label>
+                                  <input type="text" class="form-control" id="restaurant" placeholder="Enter restaurant name">
+                              </div>
+                              <div class="form-group">
+                                  <label for="faculty">Open Time</label>
+                                  <input type="time" class="form-control" id="openTime">
+                              </div>
+                              <div class="form-group">
+                                  <label for="faculty">Close Time</label>
+                                  <input type="time" class="form-control" id="closeTime">
+                              </div>
+                            <div class="form-group">
+                                <label for="faculty">Type</label>
+                                <!-- <label class="col-lg-3 col-form-label form-control-label">Type</label> -->
                                 <div class="col-lg-9">
                                     <select id="type" name="type" class="custom-select">
                                         <option value="0">Any Cuisine</option>
                                         <% for(var i=0; i<foodType.length; i++) { %>
                                         <option><%= foodType[i].restauranttype%></option>
                                         <% } %>
-                                    </select>                                
+                                    </select>
                                 </div>
                             </div>
-
-                            
                             <div class="form-group row">
                                 <label class="col-lg-3 col-form-label form-control-label"></label>
                                 <div class="col-lg-9">
-                                    <input type="reset" class="btn btn-secondary" value="Cancel">
-                                    <input type="button" class="btn btn-primary" value="Save Changes">
+                                  <div type="button" class="btn btn-light"><a href="/">Cancel</a></div>
+                                  <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -106,5 +94,16 @@
         </div>
     </div>
 </body>
+
+<script>
+    (function () {
+        window.addEventListener('load', function () {
+            var forms = [document.getElementById('rsignupInfo')];
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', check, false);
+            });
+        }, false);
+    })();
+</script>
 
 </html>
