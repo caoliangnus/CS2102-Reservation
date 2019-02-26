@@ -34,7 +34,7 @@
                         <h4 class="mb-0"> Manager & Restaurant Sign up</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off">
+                        <form class="form" action="rSignup" role="form" method="post">
                             <form id="rsignupInfo" action="rSignup" role="form" method="post">
                               <div class="form-group">
                                   <label for="username">UserName</label>
@@ -57,15 +57,15 @@
                               </div>
                               <div class="form-group">
                                   <label for="faculty">Restaurant</label>
-                                  <input type="text" class="form-control" id="restaurant" placeholder="Enter restaurant name">
+                                  <input type="text" class="form-control" name="restaurant" placeholder="Enter restaurant name">
                               </div>
                               <div class="form-group">
                                   <label for="faculty">Open Time</label>
-                                  <input type="time" class="form-control" id="openTime">
+                                  <input type="time" class="form-control" name="openTime">
                               </div>
                               <div class="form-group">
                                   <label for="faculty">Close Time</label>
-                                  <input type="time" class="form-control" id="closeTime">
+                                  <input type="time" class="form-control" name="closeTime">
                               </div>
                             <div class="form-group">
                                 <label for="faculty">Type</label>

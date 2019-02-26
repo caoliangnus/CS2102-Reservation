@@ -8,23 +8,35 @@ const pool = new Pool({
 });
 
 //Dummy User
-var user = {email: 'm1@gmail.com'};
 var restaurantName;
 var restaurantType;
 var avgRating;
 
 /* SQL Query */
-var restaurantName_query = 'select restaurantName, restauranttype, avgRating from "ProjectSample".Restaurant where email = ' + "'" + user.email + "'";
 
 
 
 // GET
 router.get('/', function(req, res, next) {
+
+	var user = req.app.locals.user;
+
+	if (user.isLogIn == false) {
+		res.redirect("/login");
+	}
+
+	if (user.accountType != "Manager") {
+		res.redirect("/login");
+	}
+
+var restaurantName_query = 'select restaurantName, restauranttype, avgRating from "ProjectSample".Restaurant where email = ' + "'" + user.email + "'";
+
 	pool.query(restaurantName_query, (err, data) => {
 	  restaurantName = data.rows[0].restaurantname;
 	  restaurantType = data.rows[0].restauranttype;
 	  avgRating = data.rows[0].avgrating;
-	  var meal_query = 'SELECT * FROM "ProjectSample".Meals  where restaurantname = ' + "'" + restaurantName + "'";
+		var meal_query = 'SELECT * FROM "ProjectSample".Meals  where restaurantname = ' + "'" + restaurantName + "'"
+		 + "ORDER BY mealname asc";
       
 	  pool.query(meal_query, (err, data) => {
 		res.render('manageRestaurant', { title: 'Manage Restaurant', data: data.rows, restaurantName: restaurantName,
@@ -55,7 +67,6 @@ router.post('/', function(req, res, next) {
 		pool.query(updatePriceQuery, (err, data) => {
 			pool.query(updateNameQuery, (err, data) => {
 				res.redirect('/manageRestaurant');
-				
 			});
 			
 			
@@ -68,11 +79,7 @@ router.post('/', function(req, res, next) {
 		+ ', ' + newPrice + ', ' + "'" + restaurantName + "'" + ')';
 		pool.query(addMealQuery, (err, data) => {
 			res.redirect('/manageRestaurant');
-			
-			
-		});
-		
-		
+		});	
 	}
 });
 

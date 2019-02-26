@@ -18,6 +18,10 @@ router.get('/', function (req, res, next) {
         res.redirect("/login");
     }
 
+    if (user.accountType != "Customer") {
+        res.redirect("/login");
+    }
+
     var sql_query = 'select points from "ProjectSample".customer where email = ' + "'" + user.email+ "'";
 
     var reservation_simple_query = 'with locationReservationTable as (select * from "ProjectSample".reservation natural join "ProjectSample".branch where email ='
