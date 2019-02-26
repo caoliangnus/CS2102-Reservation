@@ -8,7 +8,7 @@ const pool = new Pool({
 });
 
 /* SQL Query */
-var sql_query = 'INSERT INTO "ProjectSample".Customer (username, email, password) VALUES';
+var sql_query = 'INSERT INTO "ProjectSample".Users (username, email, password, accounttype) VALUES';
 
 // GET
 router.get('/', function (req, res, next) {
@@ -24,9 +24,10 @@ router.post('/', function (req, res, next) {
     var password = req.body.password;
 
     // Construct Specific SQL Query
-    var insert_query = sql_query + "('" + name + "','" + email + "','" + password + "')";
-
+    var insert_query = sql_query + "('" + name + "','" + email + "','" + password + "', " + "'" + 'Customer' + "'" + ")";
+    console.log(insert_query);
     pool.query(insert_query, (err, data) => {
+		console.log(err);
         res.redirect('/')
     });
 });
