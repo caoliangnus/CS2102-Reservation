@@ -28,8 +28,14 @@ var query = "with mealprice as (" +
 
 var sql_query = 'SELECT * FROM "ProjectSample".users';
 router.get('/', function (req, res, next) {
+
+    var searchInfo = req.query;
+    if (searchInfo.type == 0) {
+        searchInfo.type = "Any Type"
+    }
+
     pool.query(query, (err, data) => {
-        res.render('searchResult', { title: 'Search Result', data: data.rows });
+        res.render('searchResult', { title: 'Search Result', data: data.rows, searchInfo: searchInfo });
     });
 });
 
