@@ -6,14 +6,22 @@ const { Pool } = require('pg')
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 }); 
-/*dummy user */
-var user = {email: 'm1@gmail.com'};
-/* SQL Query */
-var display_query = 'SELECT * FROM "ProjectSample".Branch natural join "ProjectSample".Address natural join "ProjectSample".Restaurant where email = '
- + "'" + user.email + "'" + ' order by branchId asc';
 
-
+var user; 
 router.get('/', function(req, res, next) {
+	user = req.app.locals.user;
+
+	if (user.isLogIn == false) {
+		res.redirect("/login");
+	}
+
+	if (user.accountType != "Manager") {
+		res.redirect("/login");
+	}
+
+	var display_query = 'SELECT * FROM "ProjectSample".Branch natural join "ProjectSample".Address natural join "ProjectSample".Restaurant where email = '
+		+ "'" + user.email + "'" + ' order by branchId asc';
+
 	pool.query(display_query, (err, data) => {
 		res.render('manageBranch', { title: 'Restaurant Branches', data: data.rows });
 	});

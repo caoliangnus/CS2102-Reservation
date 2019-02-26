@@ -45,18 +45,23 @@ router.post('/', function (req, res, next) {
     console.log(closeTime);
     console.log(cuisine);
 
-    // Construct Specific SQL Query
+     // Construct Specific SQL Query
+	var insertManages = 'insert into "ProjectSample".Manages (email, restaurantname) values ( ' + "'" + email + "'" + ', ' + "'" + restaurant + "'" + ')';
     var insert_users = postUsers_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
-    var insert_manager = postManager_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
-    var insert_restaurant = postRestaurant_query + "('" + restaurant + "','" + '0.0' + "','" + openTime + "','" + closeTime + "','" + cuisine + " ');";
+    var insert_restaurant = 'insert into "ProjectSample".Restaurant(restaurantName, email, avgRating, openingTime,closingTime,restaurantType) values' +
+        "(" + "'" + restaurant + "','" + email + "', '" + 0.0 + ", '" + openTime + "', ' " + closeTime +"', '" + 
+            cuisine + "');";
+        
 
-    pool.query(insert_users, (err, data) => {
-      pool.query(insert_manager, (err, data) => {
-        pool.query(insert_restaurant, (err, data) => {
-            res.redirect('/')
-        });
-      });
+    pool.query(insertManages, (err, data) => {
+      pool.query(insert_users, (err, data) => {
+		 pool.query(insert_restaurant, (err, data) => {
+            res.redirect('/manageRestaurant');
+		 });		 
+		  
+	  });
     });
+
 });
 
 module.exports = router;

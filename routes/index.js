@@ -63,7 +63,16 @@ router.post('/logout', function (req, res, next) {
 
 // POST
 router.post('/manage', function (req, res, next) {
-  res.redirect('/manageBooking')
+  var user = req.app.locals.user;
+  if (user.isLogIn == false) {
+    res.redirect("/login");
+  } else if (user.accountType == "Customer") {
+    res.redirect('/manageBooking')
+  } else if (user.accountType == "Manager") {
+    res.redirect('/manageRestaurant')
+  } 
+
+
 });
 
 // POST
