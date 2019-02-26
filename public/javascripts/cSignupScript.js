@@ -20,10 +20,20 @@ function check(event) {
         event.stopPropagation();
         return false;
     }
+    
+    if (pw.length == 0) {
+        alert("Invalid password");
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+
     if (pw != repw) {
         alert("Password mismatch");
         event.preventDefault();
         event.stopPropagation();
         return false;
     }
+
+  
 }
