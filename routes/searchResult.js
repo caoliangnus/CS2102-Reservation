@@ -50,7 +50,7 @@ router.get('/', function (req, res, next) {
       }
       extra_condition_location += " A.area="+"'"+locations[i]+"'"
     }
-    // console.log(extra_condition_location);
+    //console.log(extra_condition_location);
 
     var final_query = base_query+' '+extra_condition_restaurant+' '+extra_condition_cuisine+' '+extra_condition_location+' '+end_query
 
