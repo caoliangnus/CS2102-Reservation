@@ -46,6 +46,11 @@ router.post('/', function (req, res, next) {
     console.log(cuisine);
 
     // Construct Specific SQL Query
+    var insert_users = postUsers_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
+    var insert_manager = postManager_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
+    var insert_restaurant = postRestaurant_query + "('" + restaurant + "','" + '0.0' + "','" + openTime + "','" + closeTime + "','" + cuisine + " ');";
+
+     // Construct Specific SQL Query
 	var insertManages = 'insert into "ProjectSample".Manages (email, restaurantname) values ( ' + "'" + email + "'" + ', ' + "'" + restaurant + "'" + ')';
     var insert_users = postUsers_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
     var insert_restaurant = postRestaurant_query + "('" + restaurant + "','" + '0.0' + "','" + openTime + "','" + closeTime + "','" + cuisine + " ');";
@@ -58,6 +63,7 @@ router.post('/', function (req, res, next) {
 		  
 	  });
     });
+
 });
 
 module.exports = router;
