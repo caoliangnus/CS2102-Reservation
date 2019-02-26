@@ -72,21 +72,22 @@
           <div class="col-md-12 responsive-wrap">
             <div class="row light-bg detail-options-wrap">
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                  <p>Date: <%=searchInfo.date%> </p>
+                  <p><strong>Date: </strong><%=searchInfo.date%> </p>
                 </div>
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                  <p>Time: <%=searchInfo.time%> </p>
+                  <p><strong>Time: </strong><%=searchInfo.time%> </p>
                 </div>
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                  <p>Number of people: <%=searchInfo.people%> </p>
-
+                  <p><strong>Number of people: </strong><%=searchInfo.people%> </p>
                 </div>
-                <div class="col-sm-4 col-lg-12 col-xl-4 featured-responsive" style="text-align:left">
-                  <p>Restaurant: <%=searchInfo.restaurant%> </p>
-                </div>
-
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                    <p>Cuisine: <%=searchInfo.type%> </p>
+                  <p><strong>Restaurant: </strong><%=searchInfo.restaurant%> </p>
+                </div>
+                <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
+                    <p><strong>Cuisine: </strong><%=searchInfo.type%> </p>
+                </div>
+                <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
+                    <p><strong>Cuisine: </strong><%=searchInfo.locations%> </p>
                 </div>
             </div>
 
@@ -96,7 +97,6 @@
                   <tr>
                     <th scope="col">Restaurant</th>
                     <th scope="col">Cuisine</th>
-                    <th scope="col">Branch</th>
                     <th scope="col">Menu</th>
                     <th scope="col">Address</th>
                     <th scope="col">Capacity</th>
@@ -109,7 +109,6 @@
                     <%= console.log(data[i].allmenu);%>
                     <td><%= data[i].restaurantname%></td>
                     <td><%= data[i].restauranttype%></td>
-                    <td><%= data[i].branchid%></td>
                     <td><a href="#" data-toggle="tooltip" data-placement="top" title="<%=data[i].allmenu%>">touch to
                         see</a></td>
                     <td><%= data[i].fulladdress%></td>
