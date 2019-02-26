@@ -27,7 +27,8 @@ router.get('/', function (req, res, next) {
     pool.query(restaurant_query, (err, data) => {
         var rName = data.rows[0].restaurantname;
         var reservation_simple_query = 'with locationReservationTable as (select * from "ProjectSample".reservation natural join "ProjectSample".branch where restaurantName ='
-            + "'" + rName + "')" + 'select * from locationReservationTable natural join "ProjectSample".address';
+            + "'" + rName + "')" + 'select * from locationReservationTable natural join "ProjectSample".address' + 
+            " where status=1";
 
         pool.query(reservation_simple_query, (err, data) => {
             reservationDetail = data.rows;
@@ -53,11 +54,17 @@ router.post('/', function (req, res, next) {
         var index = parseInt(req.body.index);
         var toUpdate = reservationDetail[index];
   
-       
+        console.log(toUpdate);
+       //Update status
+        var update_Query = 'UPDATE "ProjectSample".reservation SET status = 0 WHERE reservationid = ' + toUpdate.reservationid + 
+        " and email = " + "'" + toUpdate.email + "'" +
+            " and tableid =" + toUpdate.tableid +
+            " and branchid = " + toUpdate.branchid +
+            " and restaurantname = '" + toUpdate.restaurantname + "';";
 
-        pool.query(delete_query, (err, data) => {
+        pool.query(update_Query, (err, data) => {
             console.log(err);
-            res.redirect('/manageBooking');
+            res.redirect('/manageBookingForManager');
         });
     } 
 });

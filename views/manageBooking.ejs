@@ -74,7 +74,7 @@
     </nav>
     <h1 style="margin-top: 65px;position: relative;">Current Points: <%=point %></h1>
     
-    <h1>Current Reservations</h1>
+    <h1>Reservations</h1>
 
         <table class="table">
             <thead>
@@ -101,10 +101,14 @@
                     <td><%= data[i].area%></td>
                     <td>
         
-                    <form action="manageBooking" method="post">
-                        <input type="hidden" name="index" value="<%=i%>">
-                        <button type="submit" name="submit" value="Cancel">Cancel</button>
-                    </form>
+                        <% if( data[i].status == 1){ %>
+                            <form action="manageBooking" method="post">
+                                <input type="hidden" name="index" value="<%=i%>">
+                                <button type="submit" name="submit" value="Cancel">Cancel</button>
+                            </form>
+                        <% } %>
+
+                   
         
                         <!-- Button trigger modal -->
                         <% if( data[i].status == 0){ %>
@@ -125,13 +129,13 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form name="edit" action="manageBooking" method="post">
+                                        <form name="edit" action="manageBooking" method="post" id="ratingInfo">
                                             <%= data[i].restaurantname%>
                                             <br>
-                                            <input type="hidden" name="rName" value="<%= data[i].restaurantname%>">
+                                            <input id= "rating" type="hidden" name="indexModal" value="<%=i%>">
                                             Rating: <input value="0"" align="center" type="text"
                                                 name="rating"><br>
-                                            <button name="submit" value="Rating" type="submit">Save Changes</button>
+                                            <button name="submit" value="Rating" type="button">Save Changes</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -147,5 +151,7 @@
             </tbody>
         </table>
 </body>
+
+
 
 </html>

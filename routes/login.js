@@ -11,11 +11,7 @@ const pool = new Pool({
 });
 
 /* SQL Query */
-var sql_query_Insert = 'INSERT INTO customer_info VALUES';
 var sql_query_login = 'SELECT * FROM "ProjectSample".users';
-
-var sql_query = 'SELECT * FROM customer_info';
-
 
 // GET
 router.get('/', function (req, res, next) {
