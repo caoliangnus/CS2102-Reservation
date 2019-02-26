@@ -15,7 +15,7 @@ function check(event) {
         return false;
     }
     if (email.length == 0) {
-        alert("Invalid name");
+        alert("Invalid email");
         event.preventDefault();
         event.stopPropagation();
         return false;
