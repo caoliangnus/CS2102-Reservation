@@ -34,16 +34,4 @@ function check(event) {
         event.stopPropagation();
         return false;
     }
-<<<<<<< HEAD
-	
-	if (pw.length == 0) {
-		alert("Invalid password");
-		event.preventDefault();
-        event.stopPropagation();
-        return false;
-	}
-=======
-
-  
->>>>>>> d07cd9f29e68b3ceafb67522aa53144e7543d48d
 }
