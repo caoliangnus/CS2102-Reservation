@@ -15,6 +15,7 @@ var adminRouter = require('./routes/admin');        //Admin page
 var manageBookingRouter = require('./routes/manageBooking');  //Manage Customer Booking Page
 var searchResultRouter = require('./routes/searchResult'); //Customer Search Result Page
 var manageRestaurantRouter = require('./routes/manageRestaurant'); // Manage restaurant page
+var manageTableRouter = require('./routes/manageTable'); // Manage Table page
 
 
 var tableRouter = require('./routes/table');
@@ -49,6 +50,7 @@ app.use('/admin', adminRouter);        //url: admin page
 app.use('/manageBooking', manageBookingRouter); //url: manage booking
 app.use('/searchResult', searchResultRouter); //url: search result
 app.use('/manageRestaurant', manageRestaurantRouter); //url: manageRestaurant
+app.use('/manageTable', manageTableRouter); //url: manageTable
 
 
 //example given
