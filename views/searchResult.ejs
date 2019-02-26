@@ -7,7 +7,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    
+
     <!-- JavaScript for Interactivity -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -15,7 +15,7 @@
       integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
       integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    
+
     <!--Font Awesome (added because you use icons in your prepend/append)-->
     <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
 
@@ -29,7 +29,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-    
+
         <% if(user.isLogIn == true){ %>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
@@ -42,7 +42,7 @@
               <form class="dropdown-item" method="post" action="/manage" class="inline">
                 <button name="logout" value="logout" style="padding: 0;border: none;background: none;">Manage</button>
               </form>
-    
+
             </div>
           </li>
         </ul>
@@ -61,8 +61,8 @@
           </li>
         </ul>
         <% } %>
-    
-    
+
+
       </div>
     </nav>
 
@@ -72,26 +72,26 @@
           <div class="col-md-12 responsive-wrap">
             <div class="row light-bg detail-options-wrap">
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                  <p>Date: 01/01/2019 </p>
-                </div> 
-                <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                  <p>Time: 10:20AM </p>
+                  <p>Date: <%=searchInfo.date%> </p>
                 </div>
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                  <p>Number of people: 2 pax </p>
+                  <p>Time: <%=searchInfo.time%> </p>
+                </div>
+                <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
+                  <p>Number of people: <%=searchInfo.people%> </p>
 
                 </div>
                 <div class="col-sm-4 col-lg-12 col-xl-4 featured-responsive" style="text-align:left">
-                  <p>Restaurant: Any Restaurant </p>
+                  <p>Restaurant: <%=searchInfo.restaurant%> </p>
                 </div>
 
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                    <p>Cuisine: Any Cuisine </p>
+                    <p>Cuisine: <%=searchInfo.type%> </p>
                 </div>
             </div>
 
             <div class="row light-bg detail-options-wrap">
-              <table class="table">
+              <table class="table" style="text-align:center">
                 <thead>
                   <tr>
                     <th scope="col">Restaurant</th>
@@ -100,31 +100,35 @@
                     <th scope="col">Menu</th>
                     <th scope="col">Address</th>
                     <th scope="col">Capacity</th>
+                    <th scope="col"><strong>Action</strong></th>
                   </tr>
                 </thead>
                 <tbody>
                   <% for(var i=0; i<data.length; i++) { %>
                   <tr>
-                    <td><%= data[i].password%></td>
-                    <td><%= data[i].name%></td>
-                    <td><%= data[i].email%></td>
-                    <td><a href="#" data-toggle="tooltip" data-placement="top" title="Chicken rice,soylent green,lobster">touch to
+                    <%= console.log(data[i].allmenu);%>
+                    <td><%= data[i].restaurantname%></td>
+                    <td><%= data[i].restauranttype%></td>
+                    <td><%= data[i].branchid%></td>
+                    <td><a href="#" data-toggle="tooltip" data-placement="top" title="<%=data[i].allmenu%>">touch to
                         see</a></td>
-                    <td>Block 666 Devil Steet #4-444 Singapore 666666</td>
-                    <td>1000</td>
+                    <td><%= data[i].fulladdress%></td>
+                    <td><%= data[i].capacity%></td>
+
+
                     <td><button>Book</button></td>
                   </tr>
                   <% } %>
                 </tbody>
               </table>
 
-            </div>  
+            </div>
 
           </div>
         </div>
       </div>
     </section>
-	
+
 <script>
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();

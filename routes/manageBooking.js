@@ -7,10 +7,8 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
-/* SQL Query */
-var sql_query2 = 'select * from student_info'
-var update_query = 'UPDATE student_info SET';
 
+var reservationDetail = null;
 
 router.get('/', function (req, res, next) {
 
@@ -20,21 +18,19 @@ router.get('/', function (req, res, next) {
         res.redirect("/login");
     }
 
-    sql_query = 'select points from "ProjectSample".customer where email = ' + "'" + user.email+ "'";
-    var reservation_query = 'with BranchLocation as (select * from "ProjectSample".reservation ' +
-        'natural join "ProjectSample".branch where email = ' + "'" + user.email + "') " +
-        'select restaurantname, starttime, BranchLocation.reservedDate::timestamp, people, fulladdress, ' +
-        '"ProjectSample".area.area from BranchLocation, "ProjectSample".address natural join "ProjectSample".area ' +
-        'where "ProjectSample".address.postalcode = BranchLocation.postalcode';
+    var sql_query = 'select points from "ProjectSample".customer where email = ' + "'" + user.email+ "'";
+
+    var reservation_simple_query = 'with locationReservationTable as (select * from "ProjectSample".reservation natural join "ProjectSample".branch where email ='
+        + "'" + user.email + "')" + 'select * from locationReservationTable natural join "ProjectSample".address';
+
     console.log(user.email);
     pool.query(sql_query, (err, data) => {
         console.log(data.rows[0]);
         var point = data.rows[0].points;
-        pool.query(reservation_query, (err, data) => {
-            var datas = data.rows
-            res.render('manageBooking', { title: 'Manage Booking', point: point, data: datas });
+        pool.query(reservation_simple_query, (err, data) => {
+            reservationDetail= data.rows;            
+            res.render('manageBooking', { title: 'Manage Booking', point: point, data: reservationDetail });
         });
-        
     });    
 });
 
@@ -47,31 +43,38 @@ router.post('/', function (req, res, next) {
     var button = req.body.submit;
     console.log(button);
     if (button == "delete") {
-      
-    } else {
+        // Construct Specific SQL Query
 
+        var index = parseInt(req.body.index);
+        var toDelete = reservationDetail[index];
+
+        console.log(toDelete);
+        console.log(toDelete.email);
+        console.log(toDelete["email"]);
+
+        var delete_query = 'DELETE FROM "ProjectSample".reservation WHERE email = ' +
+            "'" + toDelete.email + "'" + "and reservationId = " + "'" + toDelete.reservationid + "'"
+            + "and tableId = " + "'" + toDelete.tableid + "'" + "and branchId = " + "'" + toDelete.branchid + "'"
+            + "and restaurantName = " + "'" + toDelete.restaurantname + "'";
+        console.log(delete_query);
+
+
+        pool.query(delete_query, (err, data) => {
+            console.log(err);
+            res.redirect('/manageBooking');
+        });
+    } else {
         var matric = req.body.matric;
         var name = req.body.name;
         var faculty = req.body.faculty;
         // Construct Specific SQL Query
-
         var update_query = "UPDATE student_info set name = '"+ name + "', faculty = '"+ faculty 
             + "' where matric = '" + matric + "'";
-
         pool.query(update_query, (err, data) => {
             console.log(data);
             res.redirect('/manageBooking')
         });
-        
-    }
-
-
-    // Retrieve Information
-    // var name = req.body.name;
-    // var email = req.body.email;
-    // var password = req.body.password;
-
-   
+    } 
 });
 
 module.exports = router;
