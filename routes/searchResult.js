@@ -6,27 +6,30 @@ const { Pool } = require('pg');
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
+var q1 ="with slots as( "+  "select T.restaurantname, T.branchid,T.tableid from "+
+  '"ProjectSample".tables T where T.capacity >='
+var q2 = " except select R.restaurantname, R.branchid,R.tableid from "+
+'"ProjectSample".reservation R where R.reserveddate= '
+var q3=" and R.starttime = "
+var q4=' ), mealprice as '+
+"(select restaurantname, concat(mealname, '(' ,price,')') as menu from "+
+ ' "ProjectSample".meals), fullmenu as '+
+" (SELECT restaurantname, array_to_string(array_agg(menu), ', ') AS allmenu FROM mealprice GROUP BY restaurantname) "+
+' select distinct R.restaurantname, R.restauranttype, B.branchid, A.fulladdress, F.allmenu '+
+' from "ProjectSample".restaurant as R, "ProjectSample".branch as B, "ProjectSample".address as A,slots as S, fullmenu as F '+
+" where R.restaurantname = B.restaurantname and B.postalcode = A.postalcode and S.branchid=B.branchid "+
+" and S.restaurantname = B.restaurantname and F.restaurantname = B.restaurantname"
 
-/* SQL Query */
-var base_query = "with mealprice as (" +
-	"select restaurantname, concat(mealname, '(' ,price,')') as menu "+
-	'from "ProjectSample".meals '+
-"), fullmenu as("+
-"SELECT restaurantname, array_to_string(array_agg(menu), ',') AS allmenu FROM mealprice GROUP BY restaurantname), "+
-"slots as( "+
-	'select branchid, restaurantName, sum(capacity) as capacity 	from "ProjectSample".tables group by branchid,restaurantName)' +
-"select R.restaurantname, R.restauranttype, B.branchid, A.fulladdress, S.capacity, F.allmenu "+
-'from "ProjectSample".restaurant as R, "ProjectSample".branch as B, "ProjectSample".address as A,slots as S, fullmenu as F '+
-'where R.restaurantname = B.restaurantname and B.postalcode = A.postalcode and S.branchid=B.branchid and S.restaurantname = B.restaurantname and F.restaurantname = B.restaurantname'
-
-var sql_query = 'SELECT * FROM "ProjectSample".users';
 var extra_condition_restaurant = '';
 var extra_condition_cuisine = '';
 var extra_condition_location = ' and (';
 var end_query = ');'
+var sql = 'select * from "ProjectSample".user;'
+
 router.get('/', function (req, res, next) {
 
     var searchInfo = req.query;
+
     if (searchInfo.type == 0) {
         searchInfo.type = "Any Cuisine"
         extra_condition_cuisine = " and 1=1"
@@ -52,7 +55,11 @@ router.get('/', function (req, res, next) {
     }
     //console.log(extra_condition_location);
 
-    var final_query = base_query+' '+extra_condition_restaurant+' '+extra_condition_cuisine+' '+extra_condition_location+' '+end_query
+    var dates = searchInfo.date.split('/');
+    var date = dates[2]+'-'+dates[0]+'-'+dates[1];
+
+    var final_query = q1 +' '+"'"+searchInfo.people+"'"+' '+q2+' '+"'"+date+"'"+' '+q3+' '+"'"+searchInfo.time+"'"+' '+q4
+    +' '+extra_condition_restaurant+' '+extra_condition_cuisine+' '+extra_condition_location+' '+end_query
 
     console.log(final_query);
 
