@@ -46,16 +46,17 @@ router.post('/', function (req, res, next) {
     console.log(cuisine);
 
     // Construct Specific SQL Query
+	var insertManages = 'insert into "ProjectSample".Manages (email, restaurantname) values ( ' + "'" + email + "'" + ', ' + "'" + restaurant + "'" + ')';
     var insert_users = postUsers_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
-    var insert_manager = postManager_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
     var insert_restaurant = postRestaurant_query + "('" + restaurant + "','" + '0.0' + "','" + openTime + "','" + closeTime + "','" + cuisine + " ');";
+    pool.query(insertManages, (err, data) => {
+      pool.query(insert_users, (err, data) => {
+		 pool.query(insert_restaurant, (err, data) => {
+            res.redirect('/manageRestaurant');
 
-    pool.query(insert_users, (err, data) => {
-      pool.query(insert_manager, (err, data) => {
-        pool.query(insert_restaurant, (err, data) => {
-            res.redirect('/')
-        });
-      });
+		 });		 
+		  
+	  });
     });
 });
 
