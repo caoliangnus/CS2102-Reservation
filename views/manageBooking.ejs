@@ -103,9 +103,9 @@
                                                 </li>
                                                 <li>
                                                     <p name="area"> <%= data[i].area%> </p>
-                                                     <!-- <input type="text" class="p" id="faculty<%=i%>" name="faculty" value="<%= data[i].faculty%>" disabled="true"> -->
                                                 </li>
                                             </ul>
+                                            <input type="hidden" name="index" value="<%=i%> "></input>
 
                                             <input type="button" class="btn btn-primary" value="edit" onclick="update(event, <%=i%>)"
                                                 data-toggle="modal" data-target="#myModal"></input>
@@ -140,9 +140,8 @@
     
                     <div class="modal-body mx-3">
                         <div class="md-form mb-5">
-                            <input type="text" name="matric">
-                            <input type="text" name="name">
-                            <input type="text" name="faculty">
+                            <input type="text" name="restaurantname">
+                            <input type="text" name="rating">
                         </div>
     
                         <div class="md-form mb-4">
@@ -174,9 +173,8 @@
         $('#myModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var modal = $(this)
-            modal.find('input[name="matric"]').val(rows[index].matric);
-            modal.find('input[name="name"]').val(rows[index].name);
-            modal.find('input[name="faculty"]').val(rows[index].faculty);
+            modal.find('input[name="restaurantname"]').val(rows[index].restaurantname);
+            modal.find('input[name="rating"]').val(rows[index].rating);
         })
     }
 </script>
