@@ -116,7 +116,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Branch Id</th>
+					
 					<th scope="col">Address</th>
 					<th scope="col">Area</th>
 					<th scope="col">Postal Code</th>
@@ -126,7 +126,7 @@
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
 				<tr><div>
-					<td><%= data[i].branchid%></td>
+	
 					<td><%= data[i].fulladdress%></td>
 					<td><%= data[i].area%></td>
 					<td><%= data[i].postalcode%></td>
@@ -208,7 +208,7 @@
 						  </div>
 						</div>
 						
-						<form name="manageTable" action="manageTable" method="get">
+						<form action="manageBranch" method="post">
 						<input type="hidden" name="branchid" value=<%= data[i].branchid%>>
                         <button type="submit" name="submit"  value="manageTable">Manage Tables</button>
                         </form>

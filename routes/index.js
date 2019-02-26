@@ -24,14 +24,16 @@ router.get('/', function (req, res, next) {
   var restaurantList;
   var areaList;
 
-  var foodType_query = 'select * from "ProjectSample".foodType;';
+  var foodType_query = 'select * from "ProjectSample".foodtype;';
   var restaurantName_query = 'select restaurantName from "ProjectSample".restaurant'
   var area_query = 'select area from "ProjectSample".area'
 
 
 
   pool.query(foodType_query, (err, data) => {
-    foodType = data.rows
+	console.log(err);
+	console.log(data);
+    foodType = data.rows;
 
     pool.query(restaurantName_query, (err, data) => {
       restaurantList = data.rows;
