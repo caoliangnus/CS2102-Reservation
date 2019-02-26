@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const url = require('url');    
+
 
 const { Pool } = require('pg')
 
@@ -83,8 +85,21 @@ router.post('/searchResult', function (req, res, next) {
   console.log(restaurant);
   console.log(locations);
   console.log(type);
+  
+  var searchInfo = {
+    date : date,
+    time : time,
+    people : people,
+    restaurant : restaurant,
+    locations : locations,
+    type : type
+  }
 
-  res.redirect('/searchResult')
+  res.redirect(url.format({
+    pathname: "/searchResult",
+    query: searchInfo
+  }));
+
 });
 
 module.exports = router;
