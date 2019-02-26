@@ -43,11 +43,8 @@ router.get('/', function (req, res, next) {
                               foodType: foodType, 
                               restaurantList: restaurantList,
                               areaList: areaList });
-
       })
-
     })
-
   });
 
 });

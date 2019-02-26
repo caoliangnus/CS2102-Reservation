@@ -54,16 +54,11 @@ router.post('/', function (req, res, next) {
         var index = parseInt(req.body.index);
         var toDelete = reservationDetail[index];
 
-        console.log(toDelete);
-        console.log(toDelete.email);
-        console.log(toDelete["email"]);
-
         var delete_query = 'DELETE FROM "ProjectSample".reservation WHERE email = ' +
             "'" + toDelete.email + "'" + "and reservationId = " + "'" + toDelete.reservationid + "'"
             + "and tableId = " + "'" + toDelete.tableid + "'" + "and branchId = " + "'" + toDelete.branchid + "'"
             + "and restaurantName = " + "'" + toDelete.restaurantname + "'";
         console.log(delete_query);
-
 
         pool.query(delete_query, (err, data) => {
             console.log(err);
@@ -71,12 +66,26 @@ router.post('/', function (req, res, next) {
         });
     } else if (button == "Rating") {
         var rating = req.body.rating;
-        var rName = req.body.rName;
+        var index = req.body.indexModal;
+        var toUpdate = reservationDetail[index];
+        var rName = toUpdate.restaurantname;
 
         var updateRatingQuery = 'insert into "ProjectSample".Ratings(rating, restaurantName) values (' + rating + ", '" + rName + "');" ;
 
         pool.query(updateRatingQuery, (err, data) => {
-            res.redirect('/manageBooking')
+
+            console.log(err);
+            //Update status
+            var update_Query = 'UPDATE "ProjectSample".reservation SET status = 2 WHERE reservationid = ' + toUpdate.reservationid +
+                " and email = " + "'" + toUpdate.email + "'" +
+                " and tableid =" + toUpdate.tableid +
+                " and branchid = " + toUpdate.branchid +
+                " and restaurantname = '" + toUpdate.restaurantname + "';";
+            
+            pool.query(update_Query, (err, data) => {
+                res.redirect('/manageBooking')
+
+            })
         });
 
     } 
