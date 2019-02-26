@@ -8,7 +8,7 @@ const pool = new Pool({
 });
 
 /* SQL Query */
-var sql_query = 'INSERT INTO customer_info VALUES';
+var sql_query = 'INSERT INTO "ProjectSample".Customer (username, email, password) VALUES';
 
 // GET
 router.get('/', function (req, res, next) {
