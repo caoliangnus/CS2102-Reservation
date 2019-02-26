@@ -33,8 +33,8 @@ router.post('/', function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
     var restaurant = req.body.restaurant;
-    var openTime = req.body.openTime;
-    var closeTime = req.body.closeTime;
+    var openTime = req.body.openTime + ":00";
+    var closeTime = req.body.closeTime + ":00";
     var cuisine = req.body.type;
 
     console.log(username);
@@ -45,21 +45,32 @@ router.post('/', function (req, res, next) {
     console.log(closeTime);
     console.log(cuisine);
 
+
+    var openTimeObj = new Date(openTime);
+
      // Construct Specific SQL Query
 	var insertManages = 'insert into "ProjectSample".Manages (email, restaurantname) values ( ' + "'" + email + "'" + ', ' + "'" + restaurant + "'" + ')';
-    var insert_users = postUsers_query + "('" + email + "','" + password + "','" + username + "'," + 'Manager' + ");";
+    var insert_users = postUsers_query + "('" + email + "','" + password + "','" + username + "'," + "'Manager'" + ");";    
     var insert_restaurant = 'insert into "ProjectSample".Restaurant(restaurantName, email, avgRating, openingTime,closingTime,restaurantType) values' +
-        "(" + "'" + restaurant + "','" + email + "', '" + 0.0 + ", '" + openTime + "', ' " + closeTime +"', '" + 
+        "(" + "'" + restaurant + "','" + email + "', " + 0.0 + ", '" + openTime + "', '" + closeTime +"', '" + 
             cuisine + "');";
         
 
     pool.query(insertManages, (err, data) => {
-      pool.query(insert_users, (err, data) => {
-		 pool.query(insert_restaurant, (err, data) => {
+
+    pool.query(insert_users, (err, data) => {
+
+        pool.query(insert_restaurant, (err, data) => {
+            var user = {
+                name: username,
+                email: email,
+                accountType: "Manager",
+                isLogIn: true
+            }
+            req.app.locals.user = user;
             res.redirect('/manageRestaurant');
-		 });		 
-		  
-	  });
+        });		
+    });
     });
 
 });
