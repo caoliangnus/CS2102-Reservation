@@ -20,6 +20,7 @@ const pool = new Pool({
 router.get('/', function (req, res, next) {
   var user = req.app.locals.user;
   console.log(user);
+  var foodType;
   var restaurantList;
   var areaList;
 
@@ -47,7 +48,6 @@ router.get('/', function (req, res, next) {
       })
     })
   });
-  
 });
 
 // POST
