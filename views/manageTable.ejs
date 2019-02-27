@@ -82,129 +82,50 @@
 						  <div class="modal-dialog" role="document">
 							<div class="modal-content">
 							  <div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Add Branch</h5>
+								<h5 class="modal-title" id="exampleModalLabel">Add Table</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								  <span aria-hidden="true">&times;</span>
 								</button>
 							  </div>
 							  <div class="modal-body">
-								<form name="add" action="/manageBranch" method="post">
-								  Address: <input value="" align="center" type="text" name="newAddress"><br>
-								  Postal Code: <input value="" id="postalcode" align="center" type="text" name="newPostalCode"><br>
-								  Area:<div align="left">
-											<select name="newArea" id="newArea">
-										     
-											 <option value="North">North</option>
-											 <option value="South">South</option>
-											 <option value="East">East</option>
-											 <option value="West">West</option>
-											 <option value="Central">Central</option>
-										    
-											</select>
+								<form name="add" action="/manageTable" method="post">
+								  Capacity: <input value="" align="left" type="text" name="capacity"><br>
+								  Table Id: <input value="" align="left" type="text" name="tableid"><br>
+								            <input name="branchid" align="left" type="hidden" value=<%=branchid%>>
+											<input name="restaurantname" type="hidden" align="left" value="<%=restaurantname%>">
+							
 									    </div>
-								
-								 
-								  <button name="submit" value="add" type="submit">Add new Branch</button>
+								  <button name="submit" value="addTable" align="Center" type="submit">Add New Table</button>
 								</form>
 							  </div>
-							  <div class="modal-footer">
-								<button type="button"  data-dismiss="modal">Close</button>
-							  </div>
+							  
 							</div>
 						  </div>
 						</div>
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Branch Id</th>
-					<th scope="col">Address</th>
-					<th scope="col">Area</th>
-					<th scope="col">Postal Code</th>
+					<th scope="col">Table Id</th>
+					<th scope="col">Table Capacity</th>
 					<th scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<% for(var i=0; i<data.length; i++) { %>
 				<tr><div>
-					<td><%= data[i].branchid%></td>
-					<td><%= data[i].fulladdress%></td>
-					<td><%= data[i].area%></td>
-					<td><%= data[i].postalcode%></td>
+					<td><%= data[i].tableid%></td>
+					<td><%= data[i].capacity%></td>
 					<td>
 					
 				
-					    <form name="delete" action="manageBranch" method="post">
-						<input type="hidden" id="deletePostal" name="delete" value=<%= data[i].postalcode%>>
+					    <form name="delete" action="manageTable" method="post">
+						<input type="hidden" name= "deletetableid" value=<%= data[i].tableid%>>
+						<input type="hidden"  name="deletebranchid" value=<%= data[i].branchid%>>
+						<input type="hidden"  name="deleterestaurantname" value="<%= data[i].restaurantname%>">
                         <button type="submit" name="submit"  value="delete">Delete</button>
                         </form>
 					
-					<!-- Button trigger modal -->
-						<button type="button"  data-toggle="modal" data-target="#editModal<%=i%>">
-						  Edit
-						</button>
-                         
-						<!-- Modal -->
-						<div class="modal fade" id="editModal<%=i%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog" role="document">
-							<div class="modal-content">
-							  <div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Edit Branch</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								  <span aria-hidden="true">&times;</span>
-								</button>
-							  </div>
-							  <div class="modal-body">
-								<form name="edit" action="/manageBranch" method="post">
-								  Address: <input value="<%=data[i].fulladdress%>" id="address" align="center" type="text" name="address"><br>
-								  Postal Code: <input value="<%=data[i].postalcode%>" id="postalcode" align="center" type="text" name="postalcode"><br>
-								  Area:<div align="left">
-											<select name="area" id="area">
-										     <% if (data[i].area == "North") { %>
-											 <option selected="selected" value="North">North</option>
-											 <option value="South">South</option>
-											 <option value="East">East</option>
-											 <option value="West">West</option>
-											 <option value="Central">Central</option>
-										     <% } else if (data[i].area == "South") {%>
-											 <option value="North">North</option>
-											 <option selected="selected" value="South">South</option>
-											 <option value="East">East</option>
-											 <option value="West">West</option>
-											 <option value="Central">Central</option>
-											 <% } else if (data[i].area == "East") { %>
-											 
-											 <option value="East">North</option>
-											 <option value="South">South</option>
-											 <option selected="selected" value="East">East</option>
-											 <option value="West">West</option>
-											 <option value="Central">Central</option>
-											 <% } else if (data[i].area == "West") { %>
-											 
-											 <option value="West">North</option>
-											 <option value="South">South</option>
-											 <option value="East">East</option>
-											 <option selected="selected" value="West">West</option>
-											 <option value="Central">Central</option>
-											 <% } else { %>
-											 <option value="North">North</option>
-											 <option value="South">South</option>
-											 <option value="East">East</option>
-											 <option value="West">West</option>
-											 <option selected="selected" value="Central">Central</option>
-											 <% } %>
-											</select>
-									    </div>
-								         <input type="hidden"  name="originalPostalCode" value=<%=data[i].postalcode%>>
-								 
-								  <button name="submit" value="edit" id="original" type="submit">Save Changes</button>
-								</form>
-							  </div>
-							  <div class="modal-footer">
-								<button type="button"  data-dismiss="modal">Close</button>
-							  </div>
-							</div>
-						  </div>
-						</div>
+			
 						
 					</td><div>
 				</tr>

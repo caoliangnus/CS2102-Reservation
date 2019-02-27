@@ -70,7 +70,7 @@ router.post('/', function(req, res, next) {
 	});
 	
 		
-	} else {
+	} else if (button == "edit" ) {
 		
     var update_address_query = 'update "ProjectSample".Address set fulladdress = ' + "'" + req.body.address + "'" + ' where postalcode = ' + "'" + req.body.originalPostalCode +"'";
     var update_area_query = 'update "ProjectSample".Address set area = ' + "'" + req.body.area + "'" + ' where postalcode = ' + "'" + req.body.originalPostalCode + "'";
@@ -94,10 +94,27 @@ router.post('/', function(req, res, next) {
 		});
 	
 		
-	}
-	
-	
-	
+	} else {
+        var branchid = req.body.branchid;
+		var restaurantQuery = 'select restaurantname from "ProjectSample".Restaurant where email = ' + "'" + user.email + "'";
+		
+		pool.query(restaurantQuery, (err, data) => {
+			var tableQuery = 'select * from "ProjectSample".Tables where branchid = ' + "'" + branchid + "'" +
+			' and restaurantname = ' + "'" + data.rows[0].restaurantname + "'";
+			pool.query(tableQuery, (err, data) => {
+		    res.render('manageTable', { title: 'Tables In The Branch', data: data.rows, branchid: branchid, restaurantname:data.rows[0].restaurantname});
+		
+	 
+		
+	        });
+			
+		});
+		
+		
+		
+	}	
 	
 });
+	
+
 module.exports = router;
