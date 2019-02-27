@@ -88,7 +88,34 @@ router.post('/', function (req, res, next) {
             })
         });
 
-    } 
+    } else if (button == "Redeem") {
+		var redeemPoints = req.body.redeemPoints - 10;
+		var user = req.app.locals.user;
+		var description = '10% discount at participating restaurants';
+		
+		//Update points & create redeem entry
+		var select_query_redeemID = 'SELECT redeemid from "ProjectSample".redeem ORDER BY redeemid DESC LIMIT 1;';
+		var update_query_points = 'UPDATE "ProjectSample".customer SET points = ' + redeemPoints + " where email='" + user.email + "';";
+		var insert_query = 'INSERT into "ProjectSample".redeem (redeemId, description, email) values (';
+		
+		pool.query(select_query_redeemID, (err, data) => {
+			
+			var latestID = 1;
+			
+			if (data.length != 0) {
+				latestID = data.rows[0].redeemid + 1;
+			}
+			
+			pool.query(update_query_points, (err, data) => {
+				
+				var insert_query_redeem = insert_query + latestID + ", '" + description + "', '" + user.email + "');";
+				
+				pool.query(insert_query_redeem, (err, data) => {
+					res.redirect('/manageBooking')
+				})
+			})
+        })
+	}
 });
 
 module.exports = router;

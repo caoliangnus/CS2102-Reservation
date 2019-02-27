@@ -24,6 +24,9 @@
     <!--Font Awesome (added because you use icons in your prepend/append)-->
     <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
 
+	<!-- ADDED JavaScript -->
+    <script src="javascripts/redeemScript.js"></script>
+	
 </head>
 
 <body>
@@ -72,7 +75,11 @@
     
         </div>
     </nav>
-    <h1 style="margin-top: 65px;position: relative;">Current Points: <%=point %></h1>
+	<form id="redeem" action="manageBooking" role="form" method="post">
+		<h1 style="margin-top: 65px;position: relative;">Current Points: <%=point %></h1>
+		<input id= "redeemPoints" type="hidden" name="redeemPoints" value=<%=point %>>
+		<button type="submit" name="submit" value="Redeem">Redeem</button>
+    </form>
     
     <h1>Reservations</h1>
 
@@ -152,6 +159,15 @@
         </table>
 </body>
 
-
+<script>
+    (function () {
+        window.addEventListener('load', function () {
+            var forms = [document.getElementById('redeem')];
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', check, false);
+            });
+        }, false);
+    })();
+</script>
 
 </html>
