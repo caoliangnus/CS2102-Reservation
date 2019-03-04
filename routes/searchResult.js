@@ -30,16 +30,23 @@ router.get('/', function (req, res, next) {
       extra_condition_restaurant = " and R.restaurantname="+"'"+searchInfo.restaurant+"'"
     }
 
-    var locations = searchInfo.locations.split(',');
-    for(var i=0;i<locations.length;i++){
-      if(i == 0){
-        var extra_condition_location = ' and (';
+    if(!searchInfo.locations){
+      searchInfo.locations = "Any Location"
+      extra_condition_location = ' and (1=1'
+    }else{
+      var locations = searchInfo.locations.split(',');
+      var extra_condition_location = '';
+
+        for(var i=0;i<locations.length;i++){
+          if(i == 0){
+            var extra_condition_location = ' and (';
+          }
+          if(i!=0) {
+            extra_condition_location += " or "
+          }
+          extra_condition_location += " A.area="+"'"+locations[i]+"'"
+        }
       }
-      if(i!=0) {
-        extra_condition_location += " or "
-      }
-      extra_condition_location += " A.area="+"'"+locations[i]+"'"
-    }
     //console.log(extra_condition_location);
 
     var dates = searchInfo.date.split('/');
@@ -62,6 +69,7 @@ router.get('/', function (req, res, next) {
     var final_getSearchResult = base_getSearchResult
     +' '+extra_condition_restaurant+' '+extra_condition_cuisine+' '+extra_condition_location+' '+end_query
 
+    console.log(final_getSearchResult)
     pool.query(final_getSearchResult, (err, data) => {
         res.render('searchResult', { title: 'Search Result', data: data.rows, searchInfo: searchInfo });
     });
