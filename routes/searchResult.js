@@ -7,6 +7,10 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
+var sdata;
+var searchInfo;
+var date;
+
 router.get('/', function (req, res, next) {
 
     var extra_condition_restaurant = '';
@@ -15,7 +19,7 @@ router.get('/', function (req, res, next) {
     var end_query = ');'
     var sql = 'select * from "ProjectSample".tables;'
 
-    var searchInfo = req.query;
+    searchInfo = req.query;
 
     if (searchInfo.type == 0) {
         searchInfo.type = "Any Cuisine"
@@ -50,7 +54,7 @@ router.get('/', function (req, res, next) {
     //console.log(extra_condition_location);
 
     var dates = searchInfo.date.split('/');
-    var date = dates[2]+'-'+dates[0]+'-'+dates[1];
+    date = dates[2]+'-'+dates[0]+'-'+dates[1];
 
     var base_getSearchResult =" with slots as( "+  "select T.restaurantname, T.branchid,T.tableid from "+
       ' "ProjectSample".tables T where T.capacity >= ' +"'"+searchInfo.people+"'"+
@@ -69,8 +73,8 @@ router.get('/', function (req, res, next) {
     var final_getSearchResult = base_getSearchResult
     +' '+extra_condition_restaurant+' '+extra_condition_cuisine+' '+extra_condition_location+' '+end_query
 
-    console.log(final_getSearchResult)
     pool.query(final_getSearchResult, (err, data) => {
+        sdata = data.rows;
         res.render('searchResult', { title: 'Search Result', data: data.rows, searchInfo: searchInfo });
     });
 
@@ -78,6 +82,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
 
+    var user = req.app.locals.user;
     // Only logged in customer can make reservation
     if (user.isLogIn == false || user.accountType !="Customer") {
         res.redirect("/login");
@@ -85,15 +90,16 @@ router.post('/', function (req, res, next) {
     //get data
     var index = parseInt(req.body.index);
     var email = req.app.locals.user.email;
-    var branchid = data[index].branchid;
-    var rname = data[index].restaurantname;
+    var branchid = sdata[index].branchid;
+    //console.log("BranchID "+branchid);
+    var rname = sdata[index].restaurantname;
     var starttime = searchInfo.time;
     var pax = searchInfo.people;
     var endtime = 1 + starttime; //assuming customer only eat for an hour
     var rdate = date;
 
     //get a table and make reservation
-    var insert_resevation = " with slots as(select T.restaurantname, T.branchid,T.tableid "+
+    var insert = " with slots as(select T.restaurantname, T.branchid,T.tableid "+
     ' from "ProjectSample".tables T '+
     " where T.capacity >= "+"'"+pax+"'"+' except '+
     " select R.restaurantname, R.branchid,R.tableid "+
@@ -103,11 +109,13 @@ router.post('/', function (req, res, next) {
     ' from slots as S natural join "ProjectSample".tables as T '+
     " where S.restaurantname = " +"'"+rname+"'"+ " and S.branchid= "+"'"+branchid+"'"+
     " order by T.capacity asc limit 1) "+
-    ' insert into "ProjectSample".reservation (email,tableid,branchid,restaurantname,starttime,endtime,reserveddate,status,people) '+
-    ' select '+"'"+email+"'"+','+' tableid, '+"'"+branchid+"'"+' , '+"'"+rname+"'"+','+"'"+starttime+"'"+','+"'"+endtime+"'"+','+"'"+rdate+"'"+
-    ' , 1 , '+','+"'"+pax+"'"+ " from soleId;"
+    ' insert into "ProjectSample".reservation (email,tableid,branchid,restaurantname,starttime,reserveddate,status,people) '+
+    ' select '+"'"+email+"'"+','+' tableid, '+"'"+branchid+"'"+' , '+"'"+rname+"'"+','+"'"+starttime+"'"+','+"'"+rdate+"'"+
+    ' , 1 , '+"'"+pax+"'"+ " from soleId;"
 
-    pool.query(insert_resevation, (err, data) => {
+    console.log(insert)
+
+    pool.query(insert, (err, data) => {
         console.log(err);
         res.redirect('/manageBooking');
     });
