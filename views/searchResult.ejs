@@ -87,7 +87,7 @@
                     <p><strong>Cuisine: </strong><%=searchInfo.type%> </p>
                 </div>
                 <div class="col-sm-2 col-lg-12 col-xl-2 featured-responsive" style="text-align:left">
-                    <p><strong>Cuisine: </strong><%=searchInfo.locations%> </p>
+                    <p><strong>Area: </strong><%=searchInfo.locations%> </p>
                 </div>
             </div>
 
@@ -111,9 +111,12 @@
                     <td><a href="#" data-toggle="tooltip" data-placement="top" title="<%=data[i].allmenu%>">touch to
                         see</a></td>
                     <td><%= data[i].fulladdress%></td>
-
-                    <td><button>Book</button></td>
-                  </tr>
+                    <td>
+                      <form id = "booking" action="" method="post">
+                        <input type="hidden" name="index" value="<%=i%>">
+                        <button type="submit" name="submit" value="Book">Book</button>
+                      </form>
+                    </tr>
                   <% } %>
                 </tbody>
               </table>
@@ -125,7 +128,15 @@
       </div>
     </section>
 
-<script>1
+<script>
+(function() {
+  window.addEventListener('load', function() {
+    var forms = [document.getElementById('booking')];
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', check, false);
+    });
+  }, false);
+})();
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const url = require('url');    
+const url = require('url');
 
 
 const { Pool } = require('pg')
@@ -40,9 +40,9 @@ router.get('/', function (req, res, next) {
 
       pool.query(area_query, (err, data) => {
         areaList = data.rows;
-        res.render('index', { title: 'Home Page', 
-                              user: user, 
-                              foodType: foodType, 
+        res.render('index', { title: 'Home Page',
+                              user: user,
+                              foodType: foodType,
                               restaurantList: restaurantList,
                               areaList: areaList });
       })
@@ -69,19 +69,19 @@ router.post('/manage', function (req, res, next) {
     res.redirect('/manageBooking')
   } else if (user.accountType == "Manager") {
     res.redirect('/manageRestaurant')
-  } 
+  }
 
 
 });
 
 // POST
-router.post('/searchResult', function (req, res, next) {
+router.post('/', function (req, res, next) {
 
   console.log("Searching");
 
   var date = req.body.date;
   var time = req.body.time;
-  var people = req.body.people;  
+  var people = req.body.people;
   var restaurant = req.body.restaurant;
   var locations = req.body.location;
   var type = req.body.type;
@@ -92,7 +92,7 @@ router.post('/searchResult', function (req, res, next) {
   console.log(restaurant);
   console.log(locations);
   console.log(type);
-  
+
   var searchInfo = {
     date : date,
     time : time,

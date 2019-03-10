@@ -6,29 +6,20 @@ const { Pool } = require('pg');
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
-var q1 ="with slots as( "+  "select T.restaurantname, T.branchid,T.tableid from "+
-  '"ProjectSample".tables T where T.capacity >='
-var q2 = " except select R.restaurantname, R.branchid,R.tableid from "+
-'"ProjectSample".reservation R where R.reserveddate= '
-var q3=" and R.starttime = "
-var q4=' ), mealprice as '+
-"(select restaurantname, concat(mealname, '(' ,price,')') as menu from "+
- ' "ProjectSample".meals), fullmenu as '+
-" (SELECT restaurantname, array_to_string(array_agg(menu), ', ') AS allmenu FROM mealprice GROUP BY restaurantname) "+
-' select distinct R.restaurantname, R.restauranttype, B.branchid, A.fulladdress, F.allmenu '+
-' from "ProjectSample".restaurant as R, "ProjectSample".branch as B, "ProjectSample".address as A,slots as S, fullmenu as F '+
-" where R.restaurantname = B.restaurantname and B.postalcode = A.postalcode and S.branchid=B.branchid "+
-" and S.restaurantname = B.restaurantname and F.restaurantname = B.restaurantname"
 
-var extra_condition_restaurant = '';
-var extra_condition_cuisine = '';
-var extra_condition_location = ' and (';
-var end_query = ');'
-var sql = 'select * from "ProjectSample".user;'
+var sdata;
+var searchInfo;
+var date;
 
 router.get('/', function (req, res, next) {
 
-    var searchInfo = req.query;
+    var extra_condition_restaurant = '';
+    var extra_condition_cuisine = '';
+    var extra_condition_location = ' and (';
+    var end_query = ');'
+    var sql = 'select * from "ProjectSample".tables;'
+
+    searchInfo = req.query;
 
     if (searchInfo.type == 0) {
         searchInfo.type = "Any Cuisine"
@@ -43,29 +34,92 @@ router.get('/', function (req, res, next) {
       extra_condition_restaurant = " and R.restaurantname="+"'"+searchInfo.restaurant+"'"
     }
 
-    var locations = searchInfo.locations.split(',');
-    for(var i=0;i<locations.length;i++){
-      if(i == 0){
-        var extra_condition_location = ' and (';
+    if(!searchInfo.locations){
+      searchInfo.locations = "Any Location"
+      extra_condition_location = ' and (1=1'
+    }else{
+      var locations = searchInfo.locations.split(',');
+      var extra_condition_location = '';
+
+        for(var i=0;i<locations.length;i++){
+          if(i == 0){
+            var extra_condition_location = ' and (';
+          }
+          if(i!=0) {
+            extra_condition_location += " or "
+          }
+          extra_condition_location += " A.area="+"'"+locations[i]+"'"
+        }
       }
-      if(i!=0) {
-        extra_condition_location += " or "
-      }
-      extra_condition_location += " A.area="+"'"+locations[i]+"'"
-    }
     //console.log(extra_condition_location);
 
     var dates = searchInfo.date.split('/');
-    var date = dates[2]+'-'+dates[0]+'-'+dates[1];
+    date = dates[2]+'-'+dates[0]+'-'+dates[1];
 
-    var final_query = q1 +' '+"'"+searchInfo.people+"'"+' '+q2+' '+"'"+date+"'"+' '+q3+' '+"'"+searchInfo.time+"'"+' '+q4
+    var base_getSearchResult =" with slots as( "+  "select T.restaurantname, T.branchid,T.tableid from "+
+      ' "ProjectSample".tables T where T.capacity >= ' +"'"+searchInfo.people+"'"+
+      " except select R.restaurantname, R.branchid,R.tableid from "+
+      ' "ProjectSample".reservation R where R.reserveddate= '+"'"+date+"'"+
+      " and R.starttime = "+"'"+searchInfo.time+"'"+
+      ' ), mealprice as '+
+      " (select restaurantname, concat(mealname, '(' ,price,')') as menu from "+
+      ' "ProjectSample".meals), fullmenu as '+
+      " (SELECT restaurantname, array_to_string(array_agg(menu), ', ') AS allmenu FROM mealprice GROUP BY restaurantname) "+
+      ' select distinct R.restaurantname, R.restauranttype, B.branchid, A.fulladdress, F.allmenu '+
+      ' from "ProjectSample".restaurant as R, "ProjectSample".branch as B, "ProjectSample".address as A,slots as S, fullmenu as F '+
+      " where R.restaurantname = B.restaurantname and B.postalcode = A.postalcode and S.branchid=B.branchid "+
+      " and S.restaurantname = B.restaurantname and F.restaurantname = B.restaurantname"
+
+    var final_getSearchResult = base_getSearchResult
     +' '+extra_condition_restaurant+' '+extra_condition_cuisine+' '+extra_condition_location+' '+end_query
 
-    console.log(final_query);
-
-    pool.query(final_query, (err, data) => {
+    pool.query(final_getSearchResult, (err, data) => {
+        sdata = data.rows;
         res.render('searchResult', { title: 'Search Result', data: data.rows, searchInfo: searchInfo });
     });
+
+});
+
+router.post('/', function (req, res, next) {
+
+    var user = req.app.locals.user;
+    // Only logged in customer can make reservation
+    if (user.isLogIn == false || user.accountType !="Customer") {
+        res.redirect("/login");
+    }
+    //get data
+    var index = parseInt(req.body.index);
+    var email = req.app.locals.user.email;
+    var branchid = sdata[index].branchid;
+    //console.log("BranchID "+branchid);
+    var rname = sdata[index].restaurantname;
+    var starttime = searchInfo.time;
+    var pax = searchInfo.people;
+    var endtime = 1 + starttime; //assuming customer only eat for an hour
+    var rdate = date;
+
+    //get a table and make reservation
+    var insert = " with slots as(select T.restaurantname, T.branchid,T.tableid "+
+    ' from "ProjectSample".tables T '+
+    " where T.capacity >= "+"'"+pax+"'"+' except '+
+    " select R.restaurantname, R.branchid,R.tableid "+
+    ' from "ProjectSample".reservation R '+
+    " where R.reserveddate = "+"'"+rdate+"'"+ " and R.starttime = " +"'"+starttime+"'"+ " ), "+
+    " soleId as ( select S.tableid "+
+    ' from slots as S natural join "ProjectSample".tables as T '+
+    " where S.restaurantname = " +"'"+rname+"'"+ " and S.branchid= "+"'"+branchid+"'"+
+    " order by T.capacity asc limit 1) "+
+    ' insert into "ProjectSample".reservation (email,tableid,branchid,restaurantname,starttime,reserveddate,status,people) '+
+    ' select '+"'"+email+"'"+','+' tableid, '+"'"+branchid+"'"+' , '+"'"+rname+"'"+','+"'"+starttime+"'"+','+"'"+rdate+"'"+
+    ' , 1 , '+"'"+pax+"'"+ " from soleId;"
+
+    console.log(insert)
+
+    pool.query(insert, (err, data) => {
+        console.log(err);
+        res.redirect('/manageBooking');
+    });
+
 });
 
 module.exports = router;
