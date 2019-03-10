@@ -1,6 +1,6 @@
 function check(event) {
 //     // Get Values
-    var username = document.getElementById('name').value;
+    var username = document.getElementById('username').value;
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
     var cpassword = document.getElementById('repassword').value;
