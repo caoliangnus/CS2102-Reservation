@@ -20,7 +20,7 @@ label {
 .slider {
   background: url(/images/slider.jpg) no-repeat;
   background-size: cover;
-  min-height: 800px; }
+  min-height: 850px; }
   @media (max-width: 992px) {
     .slider {
       min-height: 700px; } }

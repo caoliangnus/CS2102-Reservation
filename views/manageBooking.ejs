@@ -119,7 +119,7 @@
         
                         <!-- Button trigger modal -->
                         <% if( data[i].status == 0){ %>
-                            <button type="button" value="Rating" data-toggle="modal" data-target="#editModal<%=i%>">
+                            <button type="button" data-toggle="modal" data-target="#editModal<%=i%>">
                                 Rating
                             </button>
                         <% } %>
@@ -142,7 +142,7 @@
                                             <input id= "rating" type="hidden" name="indexModal" value="<%=i%>">
                                             Rating: <input value="0"" align="center" type="text"
                                                 name="rating"><br>
-                                            <button name="submit" value="Rating" type="button">Save Changes</button>
+                                            <button name="submit" value="Rating" type="submit">Save</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
