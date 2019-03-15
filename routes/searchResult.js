@@ -99,19 +99,19 @@ router.post('/', function (req, res, next) {
     var rdate = date;
 
     //get a table and make reservation
-    var insert = " with slots as(select T.restaurantname, T.branchid,T.tableid "+
+    var insert = " with allAvaliableTables as(select T.restaurantname, T.branchid,T.tableid "+
     ' from "ProjectSample".tables T '+
     " where T.capacity >= "+"'"+pax+"'"+' except '+
     " select R.restaurantname, R.branchid,R.tableid "+
     ' from "ProjectSample".reservation R '+
     " where R.reserveddate = "+"'"+rdate+"'"+ " and R.starttime = " +"'"+starttime+"'"+ " ), "+
-    " soleId as ( select S.tableid "+
-    ' from slots as S natural join "ProjectSample".tables as T '+
-    " where S.restaurantname = " +"'"+rname+"'"+ " and S.branchid= "+"'"+branchid+"'"+
+    " chooseTableId as ( select A.tableid "+
+    ' from allAvaliableTables as A natural join "ProjectSample".tables as T '+
+    " where A.restaurantname = " +"'"+rname+"'"+ " and A.branchid= "+"'"+branchid+"'"+
     " order by T.capacity asc limit 1) "+
     ' insert into "ProjectSample".reservation (email,tableid,branchid,restaurantname,starttime,reserveddate,status,people) '+
     ' select '+"'"+email+"'"+','+' tableid, '+"'"+branchid+"'"+' , '+"'"+rname+"'"+','+"'"+starttime+"'"+','+"'"+rdate+"'"+
-    ' , 1 , '+"'"+pax+"'"+ " from soleId;"
+    ' , 1 , '+"'"+pax+"'"+ " from chooseTableId;"
 
     console.log(insert)
 
