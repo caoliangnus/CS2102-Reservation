@@ -39,8 +39,27 @@ var restaurantName_query = 'select restaurantName, restauranttype, avgRating fro
 		 + "ORDER BY mealname asc";
       
 	  pool.query(meal_query, (err, data) => {
-		res.render('manageRestaurant', { title: 'Manage Restaurant', data: data.rows, restaurantName: restaurantName,
-		restaurantType: restaurantType, avgRating:avgRating});
+
+			var meal_data = data.rows;
+
+			var top_query = 'with numReserve as (select email, count(email) as numReserve from "ProjectSample".reservation where restaurantname = ' + "'" + restaurantName + "'"
+				+ ' and status in (0, 2) group by email), numRated as (select email, count(email) as numRating from "ProjectSample".reservation where restaurantname = ' + "'" + restaurantName + "'"
+			+ ' and status = 2 group by email), botht as (select A.email, numReserve, coalesce(numRating, 0) as numRating from numReserve A left join numRated B on A.email = B.email) '
+			+ 'select B.email from botht B where exists(select 1 from "ProjectSample".Customer C where C.email = B.email and C.points <= 100) order by numReserve desc, numRating desc limit 3;';
+		
+			pool.query(top_query, (err, data) => {
+
+				console.log(top_query)
+				console.log(err)
+
+				var top_data = data.rows;
+				res.render('manageRestaurant', {
+					title: 'Manage Restaurant', data: meal_data, restaurantName: restaurantName,
+					restaurantType: restaurantType, avgRating: avgRating, topData: top_data
+				});
+			});
+			
+		
 	  });
 	});
 });

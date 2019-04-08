@@ -108,8 +108,18 @@
 						</div>
 						<br>
 	Restaurant Name : <%=restaurantName%> <br>					
-    Restaurant Type : <%=restaurantType%><br>
-	Average Rating : <%=avgRating%>
+  Restaurant Type : <%=restaurantType%><br>
+	Average Rating : <%=avgRating%> <br>
+<br>
+
+	<h4> Top 3 Customers <br> </h4>
+				<% for(var i=0; i<topData.length; i++) { %>
+					<%= i+1 %>: <%= topData[i].email %> <br>
+
+					<% } %>
+				
+					<br>
+
 	<table class="table">
 		<thead>
 			<tr>

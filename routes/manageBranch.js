@@ -22,7 +22,10 @@ router.get('/', function(req, res, next) {
 	var display_query = 'SELECT * FROM "ProjectSample".Branch natural join "ProjectSample".Address natural join "ProjectSample".Restaurant where email = '
 		+ "'" + user.email + "'" + ' order by branchId asc';
 
+
 	pool.query(display_query, (err, data) => {
+
+		console.log(data.rows);
 		res.render('manageBranch', { title: 'Restaurant Branches', data: data.rows });
 	});
 	
